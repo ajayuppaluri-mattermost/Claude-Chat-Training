@@ -1,0 +1,3365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude.ai Training Course</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.7;
+    color: #1a1a2e;
+    background: #f8f9fc;
+    padding: 0;
+  }
+  .course-header {
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    color: white;
+    padding: 48px 32px 40px;
+    text-align: center;
+  }
+  .course-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .course-header .subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 16px;
+  }
+  .course-header .badges {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+  .badge {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    backdrop-filter: blur(4px);
+  }
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+  .day-nav {
+    display: flex;
+    gap: 8px;
+    margin: 24px 0 0;
+    position: sticky;
+    top: 0;
+    background: #f8f9fc;
+    padding: 12px 0;
+    z-index: 10;
+    flex-wrap: wrap;
+  }
+  .day-tab {
+    flex: 1;
+    min-width: 100px;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    color: #555;
+  }
+  .day-tab:hover { border-color: #a29bfe; color: #6c5ce7; }
+  .day-tab.active {
+    background: #6c5ce7;
+    color: white;
+    border-color: #6c5ce7;
+  }
+  .day-tab small {
+    display: block;
+    font-weight: 400;
+    font-size: 0.75rem;
+    margin-top: 2px;
+    opacity: 0.8;
+  }
+  .day-content { display: none; }
+  .day-content.active { display: block; }
+  .day-header {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+    border-left: 5px solid #6c5ce7;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .day-header h2 {
+    font-size: 1.35rem;
+    color: #6c5ce7;
+    margin-bottom: 6px;
+  }
+  .day-header .goal {
+    color: #555;
+    font-size: 0.95rem;
+  }
+  .day-header .time {
+    display: inline-block;
+    margin-top: 8px;
+    background: #f0edff;
+    color: #6c5ce7;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  .lesson {
+    background: white;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .lesson h3 {
+    font-size: 1.15rem;
+    color: #2d3436;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .lesson h3 .icon { font-size: 1.3rem; }
+  .lesson h4 {
+    font-size: 1rem;
+    color: #6c5ce7;
+    margin: 16px 0 8px;
+  }
+  .lesson p, .lesson li {
+    color: #444;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+  .lesson ul, .lesson ol {
+    padding-left: 24px;
+    margin-bottom: 12px;
+  }
+  .lesson li { margin-bottom: 6px; }
+  .prompt-box {
+    background: #f0edff;
+    border: 1px solid #d5cff5;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-size: 0.9rem;
+    color: #4a3f8a;
+    line-height: 1.6;
+    position: relative;
+    white-space: pre-wrap;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  }
+  .prompt-box::before {
+    content: "💬 PROMPT";
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6c5ce7;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 6px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  .try-it {
+    background: #e8f5e9;
+    border: 2px solid #a5d6a7;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 16px 0;
+  }
+  .try-it::before {
+    content: "🎯 TRY IT YOURSELF";
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #2e7d32;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .try-it p, .try-it li { color: #2e5730; font-size: 0.9rem; }
+  .try-it ol, .try-it ul { padding-left: 22px; }
+  .try-it h4 { color: #2e7d32; margin: 12px 0 6px; font-size: 0.95rem; }
+  .tip {
+    background: #fff8e1;
+    border-left: 4px solid #ffc107;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.88rem;
+    color: #6d5600;
+  }
+  .tip::before {
+    content: "💡 TIP: ";
+    font-weight: 700;
+  }
+  .important {
+    background: #fff3e0;
+    border-left: 4px solid #ff9800;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 0.88rem;
+    color: #6d3a00;
+  }
+  .important::before {
+    content: "⚠️ IMPORTANT: ";
+    font-weight: 700;
+  }
+  .takeaways {
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    color: white;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-top: 20px;
+  }
+  .takeaways h3 {
+    color: white;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+  }
+  .takeaways ul { padding-left: 20px; }
+  .takeaways li {
+    color: rgba(255,255,255,0.95);
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 0.88rem;
+  }
+  th {
+    background: #6c5ce7;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #eee;
+    color: #444;
+  }
+  tr:nth-child(even) td { background: #fafafe; }
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 12px 0;
+  }
+  .comparison > div {
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+  }
+  .comparison .before {
+    background: #ffebee;
+    border: 1px solid #ef9a9a;
+    color: #b71c1c;
+  }
+  .comparison .after {
+    background: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    color: #1b5e20;
+  }
+  .comparison .label {
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .steps { counter-reset: step; }
+  .step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 14px;
+    align-items: flex-start;
+  }
+  .step-num {
+    background: #6c5ce7;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .step-text { font-size: 0.93rem; color: #444; }
+  .course-footer {
+    text-align: center;
+    margin-top: 32px;
+    padding: 20px;
+    color: #999;
+    font-size: 0.8rem;
+  }
+  .glossary-term {
+    margin-bottom: 12px;
+  }
+  .glossary-term strong {
+    color: #6c5ce7;
+    font-size: 0.95rem;
+  }
+  .glossary-term p {
+    margin: 2px 0 0;
+    font-size: 0.9rem;
+    color: #444;
+  }
+  @media (max-width: 600px) {
+    .comparison { grid-template-columns: 1fr; }
+    .course-header h1 { font-size: 1.5rem; }
+    .container { padding: 16px 14px 40px; }
+    .lesson { padding: 18px 16px; }
+    .day-tab { min-width: 80px; padding: 10px 8px; font-size: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+<div class="course-header">
+  <h1>Claude.ai Training Course</h1>
+  <p class="subtitle">A hands-on guide for marketing &amp; sales professionals</p>
+  <div class="badges">
+    <span class="badge">5 Days</span>
+    <span class="badge">30-45 min/day</span>
+    <span class="badge">No technical skills needed</span>
+  </div>
+</div>
+<div class="container">
+  <div class="lesson" style="margin-top: 20px;">
+    <h3><span class="icon">📋</span> Before You Start</h3>
+    <ul>
+      <li><strong>A Claude.ai Team or Enterprise account</strong> — ask your admin if you don't have one</li>
+      <li><strong>A web browser</strong> or the <a href="https://claude.ai/download" style="color: #6c5ce7;">Claude desktop app</a></li>
+      <li><strong>30-45 minutes of focused time</strong> each day for 5 days</li>
+      <li><strong>Complete days in order</strong> — each builds on the previous</li>
+    </ul>
+  </div>
+  <div class="day-nav">
+    <div class="day-tab active" onclick="showDay(1)">Day 1<small>Foundations</small></div>
+    <div class="day-tab" onclick="showDay(2)">Day 2<small>Prompting</small></div>
+    <div class="day-tab" onclick="showDay(3)">Day 3<small>Writing</small></div>
+    <div class="day-tab" onclick="showDay(4)">Day 4<small>Research</small></div>
+    <div class="day-tab" onclick="showDay(5)">Day 5<small>Advanced</small></div>
+    <div class="day-tab" onclick="showDay(6)">Resources<small>Templates &amp; Reference</small></div>
+  </div>
+<!-- DAY 1 -->
+<div class="day-content active" id="day1">
+  <div class="day-header">
+    <h2>Day 1: Foundations — Getting Comfortable with Claude</h2>
+    <p class="goal">Navigate Claude.ai, write your first prompts, and get immediate results.</p>
+    <span class="time">⏱ ~40 minutes</span>
+  </div>
+
+  <!-- Section 1: Choosing Your Platform -->
+  <div class="lesson">
+    <h3><span class="icon">🖥️</span> Choosing Your Platform</h3>
+    <p>Claude is available in two forms. You can use either or both depending on your situation.</p>
+
+    <h4>Claude.ai (Web)</h4>
+    <ul>
+      <li>Access at <a href="https://claude.ai">claude.ai</a> in any browser</li>
+      <li>Best for: quick access from any device, no installation needed, sharing conversations with teammates</li>
+      <li>All features available immediately</li>
+    </ul>
+
+    <h4>Claude Desktop App</h4>
+    <ul>
+      <li>Download from <a href="https://claude.ai/download">claude.ai/download</a> for Mac or Windows</li>
+      <li>Best for: keeping Claude in a dedicated window separate from your browser tabs, slightly faster startup</li>
+      <li>Same features as the web version</li>
+    </ul>
+
+    <div class="tip">
+      <p>Start with whichever feels more natural. Most marketing and sales professionals prefer the web version since you're already in a browser. The desktop app is nice if you find yourself using Claude frequently and want it always one click away.</p>
+    </div>
+  </div>
+
+  <!-- Section 2: The Interface Tour -->
+  <div class="lesson">
+    <h3><span class="icon">🗺️</span> The Interface Tour</h3>
+    <p>When you open Claude.ai, here's what you'll see:</p>
+
+    <h4>Left Sidebar</h4>
+    <ul>
+      <li><strong>New Chat</strong> button at the top — starts a fresh conversation</li>
+      <li><strong>Search</strong> — find past conversations by keyword</li>
+      <li><strong>Recent conversations</strong> — your conversation history, most recent first</li>
+      <li><strong>Starred conversations</strong> — pin important chats for easy access (click the star icon on any conversation)</li>
+    </ul>
+
+    <h4>Main Area</h4>
+    <ul>
+      <li><strong>Message box</strong> at the bottom — where you type your messages</li>
+      <li><strong>Attachment button</strong> (paperclip icon) — upload files like PDFs, images, CSVs, or documents</li>
+      <li><strong>Model selector</strong> — choose which Claude model to use (Claude Sonnet is fastest, Claude Opus is most capable for complex tasks)</li>
+      <li><strong>Conversation area</strong> — your messages and Claude's responses appear here</li>
+    </ul>
+
+    <h4>Settings (click your profile icon, bottom-left)</h4>
+    <ul>
+      <li>Display name, team membership, usage information</li>
+      <li>Feature settings including Artifacts (make sure this is turned on)</li>
+    </ul>
+  </div>
+
+  <!-- Section 3: Connecting GSuite -->
+  <div class="lesson">
+    <h3><span class="icon">🔗</span> Connecting GSuite and Other Integrations</h3>
+    <p>Your Team/Enterprise plan supports connecting external services so Claude can pull in your existing documents and data.</p>
+
+    <h4>Google Drive / GSuite</h4>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Click the attachment button (paperclip) in the message box</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Select "Google Drive" from the source options</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Sign in with your work Google account when prompted</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Browse or search for the file you want to share with Claude</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text">Select the file — Claude will be able to read its contents in your conversation</div>
+      </div>
+    </div>
+
+    <p>This means you can pull in Google Docs, Sheets, and Slides directly without downloading and re-uploading them.</p>
+
+    <h4>Other Integrations</h4>
+    <p>Depending on your organization's setup, you may also have access to:</p>
+    <ul>
+      <li><strong>Notion</strong> — Pull in pages and databases</li>
+      <li><strong>Web search</strong> — Claude can search the web for current information (enabled by default on Team/Enterprise)</li>
+      <li><strong>MCP integrations</strong> — Your admin may have connected tools like Asana, Slack, or Google Calendar</li>
+    </ul>
+
+    <div class="tip">
+      <p>Check with your team admin to see which integrations are available. You can also connect integrations through Settings &gt; Connected Apps.</p>
+    </div>
+  </div>
+
+  <!-- Section 4: Anatomy of a Good First Message -->
+  <div class="lesson">
+    <h3><span class="icon">✍️</span> Anatomy of a Good First Message</h3>
+    <p>The biggest mistake new users make is writing vague messages. Compare these two approaches:</p>
+
+    <div class="comparison">
+      <div class="before">
+        <h4>Vague prompt</h4>
+        <p>Write me an email about our new product.</p>
+        <p><em>Claude will produce something generic because it doesn't know your product, audience, tone, or goal.</em></p>
+      </div>
+      <div class="after">
+        <h4>Clear prompt using Role + Task + Context + Format</h4>
+        <p>Includes specific role, detailed context about audience and features, format requirements for tone and length, and a clear call-to-action request.</p>
+        <p><em>The difference in output quality is dramatic.</em></p>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+      <pre>You are a B2B marketing copywriter.
+
+Write a product launch announcement email for our project management
+tool, TaskFlow Pro.
+
+Context:
+- Target audience: IT directors at mid-size companies (500-2000 employees)
+- Key feature: AI-powered resource allocation that reduces project delays by 30%
+- Launch date: March 15
+- Special offer: 60-day free trial for companies that sign up in March
+
+Format:
+- Subject line + email body
+- Professional but approachable tone
+- Under 200 words
+- End with a clear call-to-action</pre>
+    </div>
+
+    <p>The four parts of a good prompt are:</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Role</strong> — Tell Claude who it should be ("You are a B2B marketing copywriter")</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Task</strong> — What you need done ("Write a product launch announcement email")</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Context</strong> — Background information Claude needs (audience, details, constraints)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>Format</strong> — How the output should look (length, tone, structure)</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <p>You don't always need all four, but the more you include, the better your results.</p>
+    </div>
+  </div>
+
+  <!-- Section 5: What Claude Can and Cannot Do -->
+  <div class="lesson">
+    <h3><span class="icon">💡</span> What Claude Can and Cannot Do</h3>
+
+    <h4>Claude is great at:</h4>
+    <ul>
+      <li>Drafting and editing text (emails, blog posts, social copy, reports)</li>
+      <li>Summarizing long documents</li>
+      <li>Brainstorming ideas</li>
+      <li>Restructuring information into different formats</li>
+      <li>Analyzing text you provide (competitor copy, survey responses, meeting notes)</li>
+      <li>Explaining concepts in simple terms</li>
+    </ul>
+
+    <h4>Claude has limitations:</h4>
+    <ul>
+      <li><strong>No real-time data</strong> — Claude's training has a knowledge cutoff. Use web search for current information, or paste in the data yourself.</li>
+      <li><strong>No memory across conversations</strong> — Each new chat starts fresh. Claude doesn't remember what you discussed yesterday (unless you use Projects — covered in Day 5).</li>
+      <li><strong>Can generate plausible-sounding but incorrect information</strong> — Always verify specific facts, statistics, quotes, and claims. Claude is a drafting partner, not a fact database.</li>
+      <li><strong>Works best with your raw material</strong> — Don't ask Claude to guess about your product, audience, or data. Paste it in.</li>
+    </ul>
+
+    <div class="important">
+      <p>Always verify specific facts, statistics, quotes, and claims. Claude is a drafting partner, not a fact database.</p>
+    </div>
+  </div>
+
+  <!-- Section 6: Your First Conversation Walkthrough -->
+  <div class="lesson">
+    <h3><span class="icon">🚀</span> Your First Conversation Walkthrough</h3>
+    <p>Let's do this together right now:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Open <a href="https://claude.ai">claude.ai</a> in your browser</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Click <strong>New Chat</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Copy and paste the prompt below into the message box</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Press Enter (or click the send button)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text">Read Claude's response</div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-text">Type a follow-up: <em>"Make the key messages more specific to e-commerce pain points, and add a timeline for the quarter."</em></div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-text">Notice how Claude builds on the previous response</div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+      <pre>You are a marketing strategist helping a B2B SaaS company.
+
+I just had a brainstorming meeting and here are my rough notes:
+- Need Q2 campaign for new analytics dashboard feature
+- Target: marketing managers at e-commerce companies
+- Pain point: they spend hours manually building reports
+- Our dashboard auto-generates weekly reports with AI insights
+- Budget: $50K for the quarter
+- Channels: email, LinkedIn, one webinar
+
+Please turn these notes into a clean campaign brief with:
+- Campaign objective (1 sentence)
+- Target audience description
+- Key messages (3 bullets)
+- Channel plan with one tactic per channel
+- Success metrics to track</pre>
+    </div>
+  </div>
+
+  <!-- Exercise 1: Elevator Pitch Generator -->
+  <div class="lesson">
+    <h3><span class="icon">🎯</span> Exercise 1: Elevator Pitch Generator</h3>
+    <p><strong>Scenario:</strong> You need to quickly explain your product or service to different audiences, and each audience cares about different things.</p>
+
+    <div class="try-it">
+      <p>Open a new chat in Claude.ai and paste the following (replace the bullets with your own product, or use these as-is):</p>
+
+      <div class="prompt-box">
+        <pre>Here are the key facts about my product:
+- Name: TaskFlow Pro
+- Category: Project management software for mid-size companies
+- Key feature: AI-powered resource allocation
+- Result: Reduces project delays by 30% and cuts status meeting time in half
+- Price: Starting at $15/user/month
+
+Write a 30-second elevator pitch (about 75 words) for this product.</pre>
+      </div>
+
+      <p>Read the pitch Claude generates, then type this follow-up:</p>
+
+      <div class="prompt-box">
+        <pre>Great. Now rewrite that pitch for a CFO audience.
+Focus on cost savings and ROI instead of features.
+Keep it under 75 words.</pre>
+      </div>
+
+      <p>Compare the two versions. Notice how Claude shifted the emphasis based on the audience.</p>
+      <p><strong>What good looks like:</strong> Two distinct pitches that emphasize different value props — features/productivity for the general pitch, financial impact for the CFO version. Both should be concise and free of jargon.</p>
+    </div>
+  </div>
+
+  <!-- Exercise 2: Meeting Recap -->
+  <div class="lesson">
+    <h3><span class="icon">📝</span> Exercise 2: Meeting Recap</h3>
+    <p><strong>Scenario:</strong> You just left a meeting and have messy notes. You need a clean summary and a follow-up email.</p>
+
+    <div class="try-it">
+      <p>Open a new chat in Claude.ai and paste these raw meeting notes (or substitute your own from a recent meeting):</p>
+
+      <div class="prompt-box">
+        <pre>Turn these rough meeting notes into a clean summary with action items:
+
+Meeting: Q2 Campaign Planning
+Date: Tuesday
+Attendees: Sarah (marketing lead), James (content), Priya (demand gen), Mike (sales)
+
+Notes:
+- sarah wants to focus on the analytics dashboard launch
+- james said he can do 2 blog posts and the landing page copy by end of month
+- priya is worried about budget, only 50k for the quarter
+- mike wants more case studies, says sales team keeps getting asked for proof points
+- agreed to do one webinar in april, priya to handle logistics
+- need to finalize messaging by friday
+- mike will send over the top 5 objections he hears from prospects
+- sarah will set up the project in asana
+- next meeting: thursday at 2pm
+
+Format this as:
+1. Summary (3-4 sentences)
+2. Action items with owner and deadline
+3. Key decisions made</pre>
+      </div>
+
+      <p>Read the summary, then type:</p>
+
+      <div class="prompt-box">
+        <pre>Draft a follow-up email to the attendees. Keep it under 150 words.
+Include the action items with owners. Tone: friendly but professional.</pre>
+      </div>
+
+      <p>Review the email — it should be ready to send with minimal editing.</p>
+      <p><strong>What good looks like:</strong> A well-organized summary that captures the key points, clearly assigned action items with names and deadlines, and a concise follow-up email that's close to send-ready.</p>
+    </div>
+  </div>
+
+  <!-- Exercise 3: Job-To-Be-Done Translator -->
+  <div class="lesson">
+    <h3><span class="icon">🔄</span> Exercise 3: Job-To-Be-Done Translator</h3>
+    <p><strong>Scenario:</strong> Engineering describes features in technical terms, but your landing page needs customer-facing benefit statements.</p>
+
+    <div class="try-it">
+      <p>Open a new chat in Claude.ai and paste this prompt:</p>
+
+      <div class="prompt-box">
+        <pre>You are a conversion copywriter who specializes in B2B SaaS landing pages.
+
+Here are three technical feature descriptions from our engineering team.
+Rewrite each one as a customer-facing benefit statement for a landing page.
+
+Feature 1: "Real-time data synchronization across all connected platforms
+via REST API with sub-second latency."
+
+Feature 2: "Machine learning model trained on 10M+ project data points
+to predict resource bottlenecks 2 weeks in advance."
+
+Feature 3: "Role-based access control with SSO integration supporting
+SAML 2.0 and OAuth 2.0 protocols."
+
+For each one:
+- Write a benefit-focused headline (under 10 words)
+- Write a supporting sentence (under 25 words)
+- Use plain language a marketing manager would understand</pre>
+      </div>
+
+      <p>Review the three rewrites. They should be jargon-free and focused on what the customer gets, not how it works.</p>
+      <p><strong>What good looks like:</strong> Headlines like "Your Data, Always In Sync" instead of "Real-time data synchronization." Supporting copy that speaks to outcomes (save time, avoid problems, stay secure) rather than technical specs.</p>
+    </div>
+  </div>
+
+  <!-- Workflow: First Draft in 5 Minutes -->
+  <div class="lesson">
+    <h3><span class="icon">⚡</span> Workflow: First Draft in 5 Minutes</h3>
+    <p>Copy this template into Claude.ai whenever you need a first draft of any document. Fill in the bracketed placeholders with your specifics.</p>
+
+    <h4>The Template</h4>
+    <div class="prompt-box">
+      <pre>I need you to write a [DOCUMENT TYPE] for [AUDIENCE].
+
+Context:
+- [KEY POINT 1]
+- [KEY POINT 2]
+- [KEY POINT 3]
+
+Requirements:
+- Tone: [formal / conversational / urgent / friendly / authoritative]
+- Length: [word count or "short" / "medium" / "long"]
+- Must include: [SPECIFIC ELEMENTS — e.g., a call-to-action, specific data points, a deadline]
+- Must avoid: [THINGS TO EXCLUDE — e.g., jargon, competitor mentions, pricing]
+
+Please produce a complete first draft.</pre>
+    </div>
+
+    <h4>Example 1: Sales Follow-Up Email</h4>
+    <div class="prompt-box">
+      <pre>I need you to write a follow-up email for a prospect who attended our webinar but didn't book a demo.
+
+Context:
+- Webinar topic: "5 Ways AI Saves Marketing Teams 10 Hours Per Week"
+- The prospect is a marketing director at a mid-size e-commerce company
+- Our product automates report generation and campaign analysis
+- Webinar was 3 days ago
+
+Requirements:
+- Tone: helpful and low-pressure, not salesy
+- Length: under 150 words
+- Must include: one specific insight from the webinar, a soft CTA to book a 15-minute call
+- Must avoid: aggressive language, multiple CTAs, "just following up" opener
+
+Please produce a complete first draft.</pre>
+    </div>
+
+    <h4>Example 2: Internal Announcement</h4>
+    <div class="prompt-box">
+      <pre>I need you to write an internal announcement email for all employees.
+
+Context:
+- We're launching a new AI-powered feature in our product next month
+- The sales team needs to start learning the talking points now
+- Training sessions will be held in weeks 2 and 3 of March
+- Product marketing has a new one-pager available on the intranet
+
+Requirements:
+- Tone: excited but professional
+- Length: under 200 words
+- Must include: what the feature does (in plain language), why it matters for sales, dates for training, where to find the one-pager
+- Must avoid: technical jargon, anything that sounds like it's optional
+
+Please produce a complete first draft.</pre>
+    </div>
+
+    <h4>Example 3: LinkedIn Post</h4>
+    <div class="prompt-box">
+      <pre>I need you to write a LinkedIn post for our company page.
+
+Context:
+- We just published a case study about how CustomerCo reduced churn by 25% using our platform
+- The case study link is: [URL]
+- Key stat: they saw results within 60 days of implementation
+
+Requirements:
+- Tone: conversational and confident, not braggy
+- Length: 150-200 words
+- Must include: the 25% stat, a quote-style sentence from the customer, the link, and end with a question to drive engagement
+- Must avoid: hashtag spam (max 3 hashtags), generic phrases like "excited to share"
+
+Please produce a complete first draft.</pre>
+    </div>
+
+    <div class="tip">
+      <p><strong>Start with this template every time.</strong> Even if you only fill in half the fields, it's better than a blank prompt.</p>
+    </div>
+    <div class="tip">
+      <p><strong>After the first draft, refine.</strong> Say "Make it shorter," "Change the tone to X," or "Add a section about Y."</p>
+    </div>
+    <div class="tip">
+      <p><strong>Save your best versions.</strong> When a prompt works well, save it somewhere you can reuse it. You'll build a personal prompt library over the course of this week.</p>
+    </div>
+  </div>
+
+  <!-- Day 1 Takeaways -->
+  <div class="takeaways">
+    <h3>Day 1 Key Takeaways</h3>
+    <ul>
+      <li><strong>Navigate Claude confidently</strong> — You know the interface, how to start chats, upload files, and connect GSuite integrations.</li>
+      <li><strong>Structure prompts with Role + Task + Context + Format</strong> — The four-part framework that transforms vague requests into specific, high-quality output.</li>
+      <li><strong>Use multi-step conversations</strong> — Build on Claude's responses with follow-ups instead of starting over each time.</li>
+      <li><strong>Apply the First Draft template</strong> — A reusable workflow for generating any document quickly with the right details up front.</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- DAY 2 -->
+<div class="day-content" id="day2">
+  <div class="day-header">
+    <h2>Day 2: Prompting — Getting Exactly What You Need</h2>
+    <p class="goal">Master specificity, context loading, and iterative refinement to go from "okay output" to "exactly what I wanted."</p>
+    <span class="time">⏱ ~45 minutes</span>
+  </div>
+
+  <!-- Section 1: The Specificity Ladder -->
+  <div class="lesson">
+    <h3><span class="icon">🪜</span> The Specificity Ladder</h3>
+    <p>Most people write prompts at Level 1. Your goal is to reach Level 3 consistently.</p>
+
+    <h4>Level 1 — Vague</h4>
+    <div class="prompt-box">
+      <pre>Write me a follow-up email.</pre>
+    </div>
+    <p><em>Result: Generic, could be for anyone, about anything. You'll spend more time editing than you saved.</em></p>
+
+    <h4>Level 2 — Directed</h4>
+    <div class="prompt-box">
+      <pre>Write a follow-up email to a prospect who attended our webinar
+on AI-powered analytics but didn't book a demo.</pre>
+    </div>
+    <p><em>Result: Better — Claude knows the scenario. But it still guesses at tone, length, and approach.</em></p>
+
+    <h4>Level 3 — Fully Specified</h4>
+    <div class="prompt-box">
+      <pre>Write a follow-up email to a marketing director at a mid-size
+e-commerce company. She attended our webinar "5 Ways AI Saves
+Marketing Teams 10 Hours Per Week" three days ago but didn't
+book a demo.
+
+Tone: helpful and consultative, not pushy
+Length: under 150 words
+Include: one specific insight from the webinar topic, a soft CTA
+to book a 15-minute call (not a full demo)
+Avoid: "just following up," "I hope this email finds you well,"
+multiple CTAs, aggressive urgency
+
+Reference: our best-performing outreach emails use short
+paragraphs, lead with value, and end with a low-commitment question.</pre>
+    </div>
+    <p><em>Result: Claude produces something close to send-ready on the first attempt.</em></p>
+
+    <div class="important">
+      <p>Every detail you add saves you an editing round. Specificity up front is faster than iteration afterward.</p>
+    </div>
+  </div>
+
+  <!-- Section 2: Context Loading -->
+  <div class="lesson">
+    <h3><span class="icon">📂</span> Context Loading</h3>
+    <p>Claude doesn't know your brand, your data, or your writing style — unless you give it that information. The fastest way to get high-quality output is to paste in your existing materials.</p>
+
+    <h4>Paste text directly</h4>
+    <div class="prompt-box">
+      <pre>Here is our brand voice guide:
+[Paste 2-3 paragraphs from your style guide]
+
+Using this voice, write a LinkedIn post announcing our new
+partnership with DataCorp.</pre>
+    </div>
+
+    <h4>Upload files</h4>
+    <p>Click the paperclip icon to attach PDFs, CSVs, images, or documents. Claude will read the full file. Good files to upload:</p>
+    <ul>
+      <li>Brand or style guides</li>
+      <li>Product one-pagers</li>
+      <li>Competitor landing pages (for analysis)</li>
+      <li>Spreadsheets with campaign data</li>
+      <li>Meeting transcripts or call recordings</li>
+    </ul>
+
+    <h4>The reference pattern</h4>
+    <div class="prompt-box">
+      <pre>Here is my reference material:
+[Paste content]
+
+Now, using this as context, please [your task].</pre>
+    </div>
+
+    <div class="tip">
+      <p>This pattern works every time. The more relevant context you provide, the less guessing Claude does.</p>
+    </div>
+  </div>
+
+  <!-- Section 3: Negative Instructions and Guardrails -->
+  <div class="lesson">
+    <h3><span class="icon">🚫</span> Negative Instructions and Guardrails</h3>
+    <p>Telling Claude what NOT to do is just as important as telling it what to do. This is especially useful when Claude keeps producing patterns you don't want.</p>
+
+    <h4>Useful negative instructions</h4>
+    <ul>
+      <li>"Do not use jargon or acronyms."</li>
+      <li>"Do not exceed 150 words."</li>
+      <li>"Do not start with 'In today's fast-paced world' or any cliche opener."</li>
+      <li>"Do not use exclamation marks."</li>
+      <li>"Do not include a greeting or sign-off — just the body text."</li>
+      <li>"Do not mention competitors by name."</li>
+    </ul>
+
+    <h4>Setting boundaries on format</h4>
+    <ul>
+      <li>"Use bullet points, not numbered lists."</li>
+      <li>"No more than 3 paragraphs."</li>
+      <li>"Do not use headers or subheaders — this is a plain email."</li>
+    </ul>
+
+    <div class="tip">
+      <p>If Claude keeps doing something you don't like, add a specific negative instruction about it. "Stop using the word 'leverage'" is more effective than "use simpler language."</p>
+    </div>
+  </div>
+
+  <!-- Section 4: Iterative Refinement -->
+  <div class="lesson">
+    <h3><span class="icon">🔁</span> Iterative Refinement</h3>
+    <p>You don't need a perfect prompt on the first try. Claude is designed for back-and-forth conversation. The skill is knowing how to give useful feedback.</p>
+
+    <h4>Effective refinement phrases</h4>
+    <ul>
+      <li>"Keep everything but make the opening more direct."</li>
+      <li>"This is 80% there. Specifically, change the CTA to be less aggressive."</li>
+      <li>"Rewrite just the second paragraph to focus on ROI."</li>
+      <li>"Make it 30% shorter without losing the key points."</li>
+      <li>"The tone is too formal — make it conversational, like a colleague sending a Slack message."</li>
+      <li>"Add a specific example in the third bullet point."</li>
+    </ul>
+
+    <div class="comparison">
+      <div class="before">
+        <h4>Ineffective feedback</h4>
+        <ul>
+          <li>"Make it better." (Better how?)</li>
+          <li>"I don't like it." (What specifically?)</li>
+          <li>"Try again." (Same prompt = similar output)</li>
+        </ul>
+      </div>
+      <div class="after">
+        <h4>Effective feedback</h4>
+        <ul>
+          <li>"Make the opening more direct."</li>
+          <li>"Change the CTA to be less aggressive."</li>
+          <li>"Rewrite the second paragraph to focus on ROI."</li>
+        </ul>
+      </div>
+    </div>
+
+    <h4>When to continue vs. start over</h4>
+    <ul>
+      <li><strong>Continue</strong> when the structure and direction are right but details need adjusting</li>
+      <li><strong>Start a new chat</strong> when the fundamental approach is wrong and you want to try a completely different angle</li>
+      <li><strong>Start a new chat</strong> if the conversation is getting very long (10+ back-and-forth messages) — Claude can lose focus in extremely long threads</li>
+    </ul>
+  </div>
+
+  <!-- Section 5: Using the Prompt Generator -->
+  <div class="lesson">
+    <h3><span class="icon">🤖</span> Using the Prompt Generator</h3>
+    <p>Your team has access to an internal <strong>Prompt Generator</strong> tool built by engineering. It helps you construct well-structured prompts quickly instead of starting from scratch.</p>
+
+    <h4>How to access it</h4>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Go to <a href="https://claude.ai/project/0197ad63-8685-75cc-8209-1279d717bd5e">the Prompt Generator project</a></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Start a conversation within that project</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Describe what you need in plain language</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">The Prompt Generator will create a structured, optimized prompt for you</div>
+      </div>
+    </div>
+
+    <h4>When to use it</h4>
+    <ul>
+      <li>When you're tackling a new type of task and aren't sure how to structure the prompt</li>
+      <li>When you want to quickly generate a reusable template for a recurring task</li>
+      <li>When you want to improve an existing prompt that isn't getting great results</li>
+    </ul>
+
+    <h4>When to skip it</h4>
+    <ul>
+      <li>For simple, one-off requests where the Day 1 template is sufficient</li>
+      <li>When you're already confident in your prompt structure</li>
+      <li>For quick follow-up messages in an existing conversation</li>
+    </ul>
+
+    <div class="tip">
+      <p>The Prompt Generator is a great training wheel — use it liberally at first, and you'll naturally internalize the patterns over time.</p>
+    </div>
+  </div>
+
+  <!-- Exercise 1: The LinkedIn Post Ladder -->
+  <div class="lesson">
+    <h3><span class="icon">📊</span> Exercise 1: The LinkedIn Post Ladder</h3>
+    <p><strong>Scenario:</strong> You're announcing that your company just surpassed 1,000 customers. You'll write the same announcement at three specificity levels and compare the results.</p>
+
+    <div class="try-it">
+      <p>Open a new chat in Claude.ai. Start with a Level 1 (vague) prompt:</p>
+
+      <div class="prompt-box">
+        <pre>Write a LinkedIn post about reaching 1,000 customers.</pre>
+      </div>
+
+      <p>Read the output. It will be generic. Now send a Level 2 (directed) prompt:</p>
+
+      <div class="prompt-box">
+        <pre>Write a LinkedIn post announcing that TaskFlow Pro, a B2B project management
+tool, just reached 1,000 paying customers. The post should celebrate the
+milestone and encourage engagement.</pre>
+      </div>
+
+      <p>Read the output. Better, but still fairly template-like. Now send a Level 3 (fully specified) prompt:</p>
+
+      <div class="prompt-box">
+        <pre>Write a LinkedIn post for our company page announcing that TaskFlow Pro
+just reached 1,000 paying customers.
+
+Context:
+- We launched 18 months ago
+- Our customers are mid-size tech and professional services companies
+- The 1,000th customer is a 500-person consulting firm
+- Our average customer reports saving 8 hours per week on project reporting
+
+Requirements:
+- Tone: proud but humble, grateful to customers
+- Length: 150-200 words
+- Start with a specific, attention-grabbing first line (not "We're excited to announce")
+- Include the 8 hours/week stat
+- End with a genuine question to drive comments
+- Maximum 3 hashtags at the very end
+- Do not use: "thrilled," "game-changer," "journey"</pre>
+      </div>
+
+      <p>Compare all three outputs. The Level 3 version should be dramatically better.</p>
+      <p><strong>What good looks like:</strong> A noticeable quality jump at each level. The Level 3 post should feel like it was written by someone who actually works at the company, not a generic AI template.</p>
+    </div>
+  </div>
+
+  <!-- Exercise 2: Brand Voice Loader -->
+  <div class="lesson">
+    <h3><span class="icon">🎨</span> Exercise 2: Brand Voice Loader</h3>
+    <p><strong>Scenario:</strong> You need Claude to write in your company's voice — but first, Claude needs to understand what that voice sounds like.</p>
+
+    <div class="try-it">
+      <p>Open a new chat in Claude.ai. Paste in 2-3 paragraphs of your company's existing marketing copy. If you don't have any handy, use this sample:</p>
+
+      <div class="prompt-box">
+        <pre>Here are three paragraphs from our website and recent marketing materials:
+
+"Most project management tools give you more dashboards, more charts, more
+complexity. TaskFlow Pro gives you fewer meetings. Our AI watches your team's
+workload in real time and flags problems before they become fire drills. No
+setup wizards. No 40-page implementation guides. Just connect your tools and
+let TaskFlow do the thinking."
+
+"We built TaskFlow for teams that are tired of managing their project
+management tool. Our customers are operations leaders, marketing managers,
+and engineering directors who'd rather spend their brainpower on actual work
+than updating status reports nobody reads."
+
+"When DataCorp switched to TaskFlow Pro, their Monday status meetings went
+from 60 minutes to 15. Their project lead said, 'We stopped talking about
+work and started doing it.' That's the goal."</pre>
+      </div>
+
+      <p>Ask Claude to analyze the voice:</p>
+
+      <div class="prompt-box">
+        <pre>Analyze the brand voice in these paragraphs. Give me 5 specific
+characteristics of this writing style, with an example phrase for each.</pre>
+      </div>
+
+      <p>Read Claude's analysis. Then ask it to write something new in that voice:</p>
+
+      <div class="prompt-box">
+        <pre>Using this exact brand voice, write a short product description (100 words)
+for our new feature: AI-powered weekly report generation that automatically
+summarizes project progress and emails it to stakeholders every Monday.</pre>
+      </div>
+
+      <p>Compare the new copy against the originals. It should sound like the same company wrote it.</p>
+      <p><strong>What good looks like:</strong> Claude accurately identifies the voice traits (direct, conversational, anti-complexity, results-focused, uses humor) and the new copy matches that style — not generic marketing language.</p>
+    </div>
+  </div>
+
+  <!-- Exercise 3: Refine Until Ready -->
+  <div class="lesson">
+    <h3><span class="icon">✏️</span> Exercise 3: Refine Until Ready</h3>
+    <p><strong>Scenario:</strong> You need a cold outreach email and you'll refine it through three rounds of feedback to see how iteration works.</p>
+
+    <div class="try-it">
+      <p>Open a new chat in Claude.ai. Start with a solid initial prompt:</p>
+
+      <div class="prompt-box">
+        <pre>Write a cold outreach email from a sales rep at TaskFlow Pro to a
+VP of Operations at a 300-person logistics company.
+
+Goal: Get a 15-minute introductory call.
+Our value prop: We reduce project delays by 30% through AI-powered
+resource allocation.
+Keep it under 120 words. Tone: professional but human.</pre>
+      </div>
+
+      <p>Read the first draft. Now give specific feedback — <strong>Round 1:</strong></p>
+
+      <div class="prompt-box">
+        <pre>Too long. Cut it to under 80 words. Remove the second paragraph entirely
+and strengthen the opening line — make it about their problem, not about us.</pre>
+      </div>
+
+      <p>Read the revision. <strong>Round 2:</strong></p>
+
+      <div class="prompt-box">
+        <pre>Better. The CTA is too aggressive — change "book a call" to something
+softer like asking if it's worth a quick conversation. Also, the subject
+line is generic — make it specific to logistics operations.</pre>
+      </div>
+
+      <p>Read the revision. <strong>Round 3:</strong></p>
+
+      <div class="prompt-box">
+        <pre>Almost there. Add one specific stat or proof point in the middle
+(use the 30% reduction in project delays). Keep the total length under
+80 words.</pre>
+      </div>
+
+      <p>The final version should be significantly better than the first draft.</p>
+      <p><strong>What good looks like:</strong> Each round produces a visible improvement. The final email should be concise, specific, open with the prospect's problem, include a proof point, and end with a low-pressure CTA. Three rounds of targeted feedback should get you to a send-ready email.</p>
+    </div>
+  </div>
+
+  <!-- Workflow: Prompt-Refine-Polish -->
+  <div class="lesson">
+    <h3><span class="icon">💎</span> Workflow: Prompt-Refine-Polish</h3>
+    <p>A three-step process for consistently getting publish-ready output from Claude. Use this every time you need something more polished than a quick first draft.</p>
+
+    <h4>Step 1: Draft Your Prompt</h4>
+    <p>Use the Role + Task + Context + Format structure from Day 1:</p>
+    <div class="prompt-box">
+      <pre>[ROLE — who should Claude be?]
+
+[TASK — what do you need?]
+
+Context:
+- [RELEVANT DETAIL 1]
+- [RELEVANT DETAIL 2]
+- [RELEVANT DETAIL 3]
+
+Format:
+- Tone: [TONE]
+- Length: [LENGTH]
+- Must include: [REQUIREMENTS]
+- Must avoid: [EXCLUSIONS]</pre>
+    </div>
+
+    <h4>Step 2: Pre-Send Checklist</h4>
+    <p>Before hitting Enter, scan your prompt for these five elements. Every one you include improves the output.</p>
+    <ul>
+      <li><strong>Tone</strong> — Did I specify how it should sound?</li>
+      <li><strong>Length</strong> — Did I set a word count or size constraint?</li>
+      <li><strong>Audience</strong> — Did I name who will read this?</li>
+      <li><strong>Avoidances</strong> — Did I say what NOT to do?</li>
+      <li><strong>Example or reference</strong> — Did I provide a sample, style guide, or existing content to match?</li>
+    </ul>
+
+    <div class="tip">
+      <p>If you've checked 3 or more, send it. If fewer than 3, add more detail — it's faster to specify up front than to iterate later.</p>
+    </div>
+
+    <h4>Step 3: Refine with Targeted Phrases</h4>
+    <p>After Claude's first response, use these phrases to dial in the output:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>When you want to...</th>
+          <th>Say this</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Adjust length</td>
+          <td>"Make it [30% shorter / under X words / longer with more detail]."</td>
+        </tr>
+        <tr>
+          <td>Fix tone</td>
+          <td>"Make the tone more [casual / formal / urgent / empathetic / confident]."</td>
+        </tr>
+        <tr>
+          <td>Fix a section</td>
+          <td>"Keep everything, but rewrite the [first paragraph / CTA / headline] to be more [specific quality]."</td>
+        </tr>
+        <tr>
+          <td>Add something</td>
+          <td>"Add [a specific stat / a customer quote / a deadline] to the [section]."</td>
+        </tr>
+        <tr>
+          <td>Remove something</td>
+          <td>"Remove the [section / sentence about X]. It's not relevant."</td>
+        </tr>
+        <tr>
+          <td>Get alternatives</td>
+          <td>"Give me 3 alternative versions of the [headline / subject line / CTA]."</td>
+        </tr>
+        <tr>
+          <td>Shift audience</td>
+          <td>"Rewrite this for a [CFO / technical / executive] audience instead."</td>
+        </tr>
+        <tr>
+          <td>Final polish</td>
+          <td>"Review this for grammar, clarity, and flow. Fix any issues and list what you changed."</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="important">
+      <p>Two rounds of refinement is typical. If you're on round 4+, it's usually faster to start a new chat with a better initial prompt — incorporating what you learned from the failed attempts.</p>
+    </div>
+  </div>
+
+  <!-- Day 2 Takeaways -->
+  <div class="takeaways">
+    <h3>Day 2 Key Takeaways</h3>
+    <ul>
+      <li><strong>Climb the specificity ladder</strong> — Level 3 prompts (with tone, length, audience, avoidances, and references) produce dramatically better output than vague requests.</li>
+      <li><strong>Load context for brand-matched output</strong> — Paste in existing copy, style guides, or reference materials so Claude writes in your voice, not a generic one.</li>
+      <li><strong>Use negative instructions as guardrails</strong> — Telling Claude what NOT to do is just as powerful as telling it what to do.</li>
+      <li><strong>Iterate with specific feedback</strong> — "Rewrite the CTA to be softer" beats "make it better" every time. Two targeted rounds typically get you to publish-ready.</li>
+    </ul>
+  </div>
+
+</div>
+<!-- DAY 3 -->
+<div class="day-content" id="day3">
+  <div class="day-header">
+    <h2>Day 3: Writing &amp; Communications Workflows</h2>
+    <p class="goal">Draft, edit, and repurpose marketing content across channels using Claude as your daily writing partner.</p>
+    <span class="time">⏱ ~44 minutes</span>
+  </div>
+
+  <!-- Section 1: Draft-Critique-Revise Loop -->
+  <div class="lesson">
+    <h3><span class="icon">🔄</span> The Draft-Critique-Revise Loop</h3>
+    <p>This three-step technique consistently outperforms asking Claude for a single draft. It works because Claude is surprisingly good at critiquing its own work.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Generate a draft</strong> with full context (using what you learned in Days 1-2).</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Ask Claude to critique its own draft:</strong></div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+<pre>Now review this draft as a senior marketing editor. Identify specific
+weaknesses in:
+- Clarity (any confusing or vague phrases?)
+- Persuasion (is the value proposition compelling?)
+- Flow (does it read smoothly from start to finish?)
+- CTA (is the call-to-action clear and motivating?)
+
+Be specific — point to exact sentences that need improvement.</pre>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Ask Claude to revise based on its critique:</strong></div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+<pre>Now rewrite the draft, fixing every issue you identified. Keep what's
+working and improve what isn't.</pre>
+    </div>
+
+    <p>The result is typically 50-70% better than the first draft. This loop works for emails, blog posts, landing pages, case studies — any content where quality matters.</p>
+  </div>
+
+  <!-- Section 2: Email Workflows -->
+  <div class="lesson">
+    <h3><span class="icon">📧</span> Email Workflows</h3>
+
+    <h4>Cold Outreach</h4>
+    <div class="prompt-box">
+<pre>Write a cold outreach email.
+
+Sender: [YOUR NAME], [YOUR TITLE] at [COMPANY]
+Recipient: [THEIR TITLE] at a [COMPANY SIZE] [INDUSTRY] company
+Goal: [DESIRED ACTION — e.g., book a 15-min call]
+Our value prop: [ONE SENTENCE ABOUT WHAT YOU DO]
+Proof point: [STAT, CASE STUDY REFERENCE, OR CUSTOMER RESULT]
+
+Tone: [professional / casual / consultative]
+Length: under [WORD COUNT] words
+Open with their problem, not our product.
+End with a low-commitment question, not a hard CTA.</pre>
+    </div>
+
+    <h4>Follow-Up Sequences</h4>
+    <div class="prompt-box">
+<pre>I sent this email [DAYS] days ago and got no response:
+[PASTE ORIGINAL EMAIL]
+
+Write a follow-up that:
+- References the original email without just repeating it
+- Adds a new angle or piece of value (not "just checking in")
+- Is shorter than the original
+- Keeps the same tone</pre>
+    </div>
+
+    <h4>Internal Communications</h4>
+    <div class="prompt-box">
+<pre>Write an internal announcement about [TOPIC] for [AUDIENCE — all-hands, sales team, leadership].
+
+Key facts:
+- [FACT 1]
+- [FACT 2]
+- [FACT 3]
+
+What people need to do: [ACTION ITEMS]
+Deadline: [DATE]
+Tone: [TONE]
+Length: under [WORD COUNT] words</pre>
+    </div>
+  </div>
+
+  <!-- Section 3: Long-Form Content -->
+  <div class="lesson">
+    <h3><span class="icon">📝</span> Long-Form Content</h3>
+
+    <h4>Blog Posts: Outline First, Then Section by Section</h4>
+    <p>Don't ask Claude to write a full blog post in one prompt. Break it into steps:</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Get headline options:</strong></div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+<pre>Give me 5 headline options for a blog post about [TOPIC].
+Target audience: [WHO]. Goal: [drive traffic / educate / convert].
+Make them specific and benefit-focused.</pre>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Get an outline:</strong></div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+<pre>I'm going with headline #[N]: "[HEADLINE]"
+Create a blog post outline with:
+- An intro hook (2-3 sentences, not a generic opener)
+- 4-5 main sections with descriptive subheadings
+- Key points to cover in each section
+- A conclusion with a clear CTA
+Target length: [WORD COUNT] words total</pre>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Draft section by section:</strong></div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+<pre>Write the [SECTION NAME] section. Target [WORD COUNT] words.
+Use the outline above but add specific examples and concrete details.</pre>
+    </div>
+
+    <p>This approach gives you more control and produces more coherent long-form content.</p>
+
+    <h4>Case Studies</h4>
+    <div class="prompt-box">
+<pre>Write a case study using this structure:
+
+Situation: [WHO IS THE CUSTOMER AND WHAT'S THEIR CONTEXT]
+Challenge: [WHAT PROBLEM WERE THEY FACING]
+Solution: [WHAT DID THEY DO — how did they use our product]
+Result: [QUANTIFIED OUTCOMES]
+
+Include:
+- A compelling headline that leads with the result
+- A 2-sentence executive summary at the top
+- A pull quote from the customer (you can draft a realistic one)
+- Specific numbers wherever possible
+
+Length: [WORD COUNT] words
+Tone: professional but story-driven</pre>
+    </div>
+
+    <h4>Landing Page Copy</h4>
+    <div class="prompt-box">
+<pre>Write landing page copy for [PRODUCT/FEATURE].
+
+Target audience: [WHO]
+Primary pain point: [WHAT PROBLEM DOES THIS SOLVE]
+Key differentiator: [WHY US OVER ALTERNATIVES]
+
+Write:
+1. Hero headline (under 10 words) + subheadline (under 25 words)
+2. Three benefit blocks (icon-style: short headline + 2 sentences each)
+3. One social proof section (stat + customer quote)
+4. CTA button text + supporting line</pre>
+    </div>
+  </div>
+
+  <!-- Section 4: Editing and Polishing -->
+  <div class="lesson">
+    <h3><span class="icon">✂️</span> Editing and Polishing</h3>
+    <p>Claude is excellent at editing existing text. Use these patterns:</p>
+
+    <h4>Improve Clarity</h4>
+    <div class="prompt-box">
+<pre>Edit this for clarity. Simplify complex sentences, remove jargon,
+and make every sentence easy to understand on first read:
+[PASTE TEXT]</pre>
+    </div>
+
+    <h4>Cut Length</h4>
+    <div class="prompt-box">
+<pre>Cut this to under [WORD COUNT] words. Preserve the key message
+and CTA. Remove anything that doesn't directly support the main point:
+[PASTE TEXT]</pre>
+    </div>
+
+    <h4>Shift Tone</h4>
+    <div class="prompt-box">
+<pre>Rewrite this in a [TARGET TONE] tone. Keep the same information
+and structure, just change how it sounds:
+[PASTE TEXT]</pre>
+    </div>
+
+    <h4>Generate Alternatives</h4>
+    <div class="prompt-box">
+<pre>Give me 5 alternative versions of this headline. Each should take
+a different angle:
+[PASTE HEADLINE]</pre>
+    </div>
+  </div>
+
+  <!-- Exercise 1 -->
+  <div class="lesson">
+    <h3><span class="icon">💪</span> Exercises</h3>
+
+    <div class="try-it">
+      <h4>Exercise 1: The Campaign Email Suite (10 min)</h4>
+      <p><strong>Scenario:</strong> Your company is launching "SmartReport," an AI feature that auto-generates weekly project status reports. You need a 3-email nurture sequence targeting marketing operations managers.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Open a new chat in Claude.ai</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Paste this prompt to get all three emails at once:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>You are a B2B email marketing specialist.
+
+Write a 3-email nurture sequence for the launch of SmartReport, an AI
+feature that automatically generates weekly project status reports and
+emails them to stakeholders every Monday morning.
+
+Target audience: Marketing operations managers at companies with 200-1000 employees.
+Pain point: They spend 3-4 hours every week manually compiling status updates
+from multiple tools (Asana, Jira, Salesforce) into a report for leadership.
+
+Email 1 — Awareness (sent launch day):
+- Subject line + body
+- Focus on the pain point, introduce the solution
+- CTA: Watch a 2-minute demo video
+
+Email 2 — Consideration (sent 3 days later):
+- Subject line + body
+- Focus on a specific customer result: "DataCorp reduced reporting time from 4 hours to 10 minutes"
+- CTA: Start a free trial
+
+Email 3 — Decision (sent 5 days after Email 2):
+- Subject line + body
+- Focus on ease of setup (connects in 5 minutes, no IT required) and limited-time offer (60-day trial vs. standard 14-day)
+- CTA: Start extended free trial
+
+For all emails:
+- Tone: helpful and conversational, not salesy
+- Length: 100-150 words each
+- Short paragraphs (2-3 sentences max)
+- One CTA per email</pre>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Read all three emails</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Apply the Draft-Critique-Revise loop:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>Review these three emails as a senior email marketing manager.
+For each email, identify:
+- Is the subject line compelling enough to open?
+- Does the opening line hook the reader immediately?
+- Is the CTA clear and well-positioned?
+- Is the messaging consistent across all three?
+
+Be specific about what needs to change.</pre>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-text">Then ask Claude to revise:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>Revise all three emails based on your critique.</pre>
+      </div>
+
+      <p><strong>What good looks like:</strong> Three emails that feel like a coherent sequence — each builds on the last, the messaging is consistent, the urgency escalates naturally, and each one could stand alone. Subject lines should be specific and curiosity-driven.</p>
+    </div>
+
+    <!-- Exercise 2 -->
+    <div class="try-it">
+      <h4>Exercise 2: Blog Post From Scratch (12 min)</h4>
+      <p><strong>Scenario:</strong> You need a blog post that drives organic traffic and positions your company as a thought leader.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Open a new chat in Claude.ai</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Get headline options:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>Give me 5 headline options for a blog post about how marketing teams
+are using AI to automate their weekly reporting.
+
+Target audience: Marketing managers and directors at mid-size B2B companies.
+Goal: Drive organic search traffic and demonstrate expertise.
+
+Make them specific (include numbers or outcomes where possible).
+Avoid generic AI hype — focus on the practical workflow change.</pre>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Pick the best headline (or tell Claude which number you like). Then get an outline:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>I'm going with headline #[YOUR CHOICE].
+
+Create a blog post outline with:
+- An opening hook that describes a relatable frustration (not a generic AI statement)
+- 4 main sections with descriptive subheadings
+- Key points for each section
+- A conclusion with a CTA to try our product
+- Target: 800 words total</pre>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Draft one section:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>Write the first section (after the intro). Target 200 words.
+Include a specific, concrete example — not generic advice.</pre>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-text">Run the critique-revise loop on just that section:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>Critique this section: Is it specific enough? Does it provide actionable
+value or is it too high-level? Would a marketing manager learn something
+new from reading it?</pre>
+      </div>
+
+      <p>Then:</p>
+
+      <div class="prompt-box">
+<pre>Revise the section based on your critique. Make it more specific and actionable.</pre>
+      </div>
+
+      <p><strong>What good looks like:</strong> A headline that you'd actually click on, an outline that flows logically, and a drafted section that provides real value — not filler content. The revised section should be noticeably better than the first draft.</p>
+    </div>
+
+    <!-- Exercise 3 -->
+    <div class="try-it">
+      <h4>Exercise 3: Tone Transformer (5 min)</h4>
+      <p><strong>Scenario:</strong> You have one paragraph of product copy and need to adapt it for three different contexts.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Open a new chat in Claude.ai</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Paste this prompt:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>Here is a paragraph from our product page:
+
+"TaskFlow Pro uses machine learning to analyze your team's workload,
+project timelines, and resource availability in real time. When it detects
+a potential bottleneck — like an overloaded team member or a slipping
+deadline — it alerts you with specific recommendations before the problem
+affects your project timeline. The result: fewer surprises, fewer fire
+drills, and projects that finish on schedule."
+
+Rewrite this paragraph in three different tones. Keep the core message
+the same, but change the voice:
+
+Version A: Casual and conversational (for a LinkedIn post)
+Version B: Authoritative and data-driven (for a whitepaper)
+Version C: Urgent and action-oriented (for a promotional email)
+
+Label each version clearly.</pre>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Compare the three versions. They should say the same thing but feel completely different.</div>
+        </div>
+      </div>
+
+      <p><strong>What good looks like:</strong> Three versions that are clearly distinct in voice. The LinkedIn version should feel like a person talking. The whitepaper version should feel substantive and credible. The promotional email should create urgency without being desperate.</p>
+    </div>
+  </div>
+
+  <!-- Workflow: Content Repurposing Engine -->
+  <div class="lesson">
+    <h3><span class="icon">♻️</span> Workflow: Content Repurposing Engine</h3>
+    <p>Turn one piece of content into multiple formats. Copy this template into Claude.ai whenever you need to distribute a piece across channels.</p>
+
+    <h4>The Template</h4>
+    <div class="prompt-box">
+<pre>Here is my source content:
+[PASTE BLOG POST, WEBINAR TRANSCRIPT, WHITEPAPER SECTION, CASE STUDY, ETC.]
+
+Please repurpose this into the following formats:
+
+1. A LinkedIn post (150-200 words, conversational tone, ends with a question to drive engagement)
+
+2. A tweet thread (5-7 tweets, each under 280 characters, first tweet is the hook)
+
+3. An email newsletter blurb (100 words, includes a CTA to read the full piece at [URL])
+
+4. 3 pull quotes suitable for social media graphics (short, punchy, under 20 words each)
+
+Maintain the key message: [ONE SENTENCE SUMMARY OF THE CORE POINT]
+Brand voice: [2-3 ADJECTIVES — e.g., "direct, conversational, confident"]</pre>
+    </div>
+
+    <h4>Filled Example</h4>
+    <div class="prompt-box">
+<pre>Here is my source content:
+
+"When DataCorp switched from manual project reporting to TaskFlow Pro's
+AI-powered SmartReport, their Monday status meetings went from 60 minutes
+to 15. Project lead Maria Chen said, 'We stopped talking about work and
+started doing it.' Within 60 days, their team eliminated 4 hours of
+weekly reporting overhead and caught two potential deadline risks before
+they became problems. The marketing ops team alone saved 160 hours in
+the first quarter — time they reinvested into campaign optimization
+that drove a 15% improvement in lead quality."
+
+Please repurpose this into the following formats:
+
+1. A LinkedIn post (150-200 words, conversational tone, ends with a question to drive engagement)
+
+2. A tweet thread (5-7 tweets, each under 280 characters, first tweet is the hook)
+
+3. An email newsletter blurb (100 words, includes a CTA to read the full case study at https://example.com/datacore-case-study)
+
+4. 3 pull quotes suitable for social media graphics (short, punchy, under 20 words each)
+
+Maintain the key message: AI-powered reporting eliminates hours of manual work
+and helps teams focus on high-impact activities.
+Brand voice: direct, confident, results-oriented</pre>
+    </div>
+
+    <div class="tip">
+      <ul>
+        <li><strong>Start with your longest, most detailed piece</strong> (blog post or case study). It's easier to compress down than to expand up.</li>
+        <li><strong>Paste the actual content</strong>, not a summary. Claude does a better job repurposing when it has the full original.</li>
+        <li><strong>Customize the formats</strong> for your channels. Replace "tweet thread" with "Instagram caption" or add "Slack announcement" — whatever channels you use.</li>
+        <li><strong>Run it twice</strong> with different angles if you want variety. Ask Claude to emphasize a different aspect of the source content each time.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Day 3 Takeaways -->
+  <div class="takeaways">
+    <h3>Day 3 Takeaways</h3>
+    <ul>
+      <li><strong>Draft-Critique-Revise</strong> — The single most effective technique for producing quality content with Claude. Always run this loop when quality matters.</li>
+      <li><strong>Section-by-section creation</strong> — Break long-form content into steps (headlines, outline, then individual sections) for better results and more control.</li>
+      <li><strong>Tone control</strong> — One message can serve many channels. Give Claude a clear tone directive and it will adapt the voice while preserving the core message.</li>
+      <li><strong>Content repurposing</strong> — Turn one strong piece into multiple formats across channels using a single structured prompt.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- DAY 4 -->
+<div class="day-content" id="day4">
+  <div class="day-header">
+    <h2>Day 4: Research &amp; Analysis Workflows</h2>
+    <p class="goal">Summarize documents, analyze competitors, interpret data, and build research briefs.</p>
+    <span class="time">⏱ ~43 minutes</span>
+  </div>
+
+  <!-- Section 1: Summarization Techniques -->
+  <div class="lesson">
+    <h3><span class="icon">📋</span> Summarization Techniques</h3>
+
+    <h4>Basic Summarization</h4>
+    <p>The simplest and most frequently useful pattern:</p>
+    <div class="prompt-box">
+<pre>Summarize this in 5 bullet points for a [ROLE — e.g., sales leader,
+marketing director, executive]:
+[PASTE CONTENT]</pre>
+    </div>
+    <p>Specifying the audience changes what Claude emphasizes. A summary for a sales leader highlights revenue impact and customer objections. A summary for a CMO highlights brand positioning and campaign implications.</p>
+
+    <h4>Tiered Summarization</h4>
+    <p>When you need both a quick take and the details:</p>
+    <div class="prompt-box">
+<pre>Provide two summaries of this document:
+
+1. Executive summary: 3 sentences, focus on decisions needed and impact
+2. Detailed breakdown: section-by-section summary with key data points
+
+[PASTE CONTENT OR UPLOAD FILE]</pre>
+    </div>
+
+    <h4>Targeted Extraction</h4>
+    <p>When you don't need a summary — you need specific information pulled out:</p>
+    <div class="prompt-box">
+<pre>From this document, extract:
+- Every mention of pricing or cost
+- All specific metrics or statistics
+- Any deadlines or dates mentioned
+- Names and roles of people mentioned
+
+Format as a table.
+
+[PASTE CONTENT]</pre>
+    </div>
+
+    <h4>File Uploads</h4>
+    <p>For longer documents (10+ pages), use file upload instead of pasting:</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Click the paperclip icon in Claude.ai</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Upload your PDF, Word doc, or CSV</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Ask your question — Claude reads the entire file</div>
+      </div>
+    </div>
+    <p>This works well for quarterly reports, competitor whitepapers, survey results (CSV or Excel), meeting transcripts, and industry research reports.</p>
+  </div>
+
+  <!-- Section 2: Competitive Analysis -->
+  <div class="lesson">
+    <h3><span class="icon">🔍</span> Competitive Analysis with Claude</h3>
+
+    <h4>Structured Comparison</h4>
+    <div class="prompt-box">
+<pre>I'm analyzing a competitor. Here's what I have:
+
+Their website copy: [PASTE]
+Their product page: [PASTE]
+
+Please analyze:
+1. Their positioning: Who are they targeting and how do they describe themselves?
+2. Their key value propositions: What 3 benefits do they lead with?
+3. Their messaging strengths: What do they do well?
+4. Their messaging weaknesses: Where is their copy vague, generic, or unconvincing?
+5. How they differ from us: [DESCRIBE YOUR POSITIONING BRIEFLY]</pre>
+    </div>
+
+    <h4>Role-Playing as a Competitor</h4>
+    <p>A creative technique for pressure-testing your own messaging:</p>
+    <div class="prompt-box">
+<pre>You are the VP of Marketing at [COMPETITOR NAME]. Based on the following
+information about their product and positioning:
+
+[PASTE COMPETITOR INFO]
+
+Write a pitch for why a [TARGET CUSTOMER TYPE] should choose your product
+over [YOUR COMPANY NAME], whose value proposition is: [YOUR VALUE PROP].
+
+Be persuasive and specific.</pre>
+    </div>
+
+    <p>Then flip it:</p>
+    <div class="prompt-box">
+<pre>Now switch roles. You are our VP of Marketing. Write the counter-argument —
+why should that same customer choose us instead?</pre>
+    </div>
+
+    <h4>SWOT Analysis</h4>
+    <div class="prompt-box">
+<pre>Based on the following information about [COMPETITOR], generate a
+SWOT analysis formatted as a 2x2 table:
+
+[PASTE EVERYTHING YOU KNOW — WEBSITE COPY, PRODUCT INFO, REVIEWS, NEWS]
+
+Our company's position for comparison: [BRIEF DESCRIPTION]</pre>
+    </div>
+
+    <div class="important">
+      <p>Claude's training data has a cutoff date. For competitive analysis:</p>
+      <ul>
+        <li><strong>Do</strong> paste in current competitor materials (website copy, recent press releases, product pages)</li>
+        <li><strong>Do</strong> upload recent documents</li>
+        <li><strong>Don't</strong> ask Claude what a competitor is doing right now without providing that information</li>
+        <li><strong>Always</strong> verify specific claims about competitors independently</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 3: Data Interpretation -->
+  <div class="lesson">
+    <h3><span class="icon">📊</span> Data Interpretation</h3>
+    <p>Claude is surprisingly effective at turning numbers into narratives. The key is giving it the actual data.</p>
+
+    <h4>Table Interpretation</h4>
+    <div class="prompt-box">
+<pre>Here is our marketing performance data for the last 4 quarters:
+
+| Metric | Q1 | Q2 | Q3 | Q4 |
+|--------|-----|-----|-----|-----|
+| MQLs | 450 | 520 | 480 | 610 |
+| SQLs | 180 | 195 | 160 | 245 |
+| MQL→SQL Rate | 40% | 37.5% | 33% | 40% |
+| Revenue | $890K | $1.1M | $950K | $1.4M |
+| CAC | $285 | $310 | $340 | $295 |
+
+Analyze this data and provide:
+1. A 3-sentence executive summary
+2. The top 3 trends or patterns
+3. 2 areas of concern with suggested next steps</pre>
+    </div>
+
+    <h4>Generating Talking Points</h4>
+    <div class="prompt-box">
+<pre>Based on this data, write 5 talking points for a board presentation.
+Each talking point should:
+- Lead with the insight, not the number
+- Include the supporting data
+- Be one sentence
+- Sound confident but honest about challenges</pre>
+    </div>
+
+    <h4>Anticipating Questions</h4>
+    <div class="prompt-box">
+<pre>Based on this data, what are the 5 most likely questions a CMO would ask?
+For each question, draft a concise answer using the data.</pre>
+    </div>
+  </div>
+
+  <!-- Section 4: Building Research Briefs -->
+  <div class="lesson">
+    <h3><span class="icon">🧠</span> Building Research Briefs</h3>
+    <p>For deeper research tasks, use Claude as a thinking partner to structure your work.</p>
+
+    <h4>The Brief Builder Approach</h4>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Get the structure:</strong></div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+<pre>I need to create a research brief on [TOPIC] for [AUDIENCE].
+What should a thorough brief cover? Give me a recommended outline
+with section descriptions.</pre>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Fill it in section by section:</strong></div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+<pre>Write the [SECTION NAME] section. Here's what I know:
+[PASTE YOUR NOTES, DATA, OR SOURCES]
+Target: [WORD COUNT] words.</pre>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Identify gaps:</strong></div>
+      </div>
+    </div>
+
+    <div class="prompt-box">
+<pre>Review the brief so far. What important questions does it NOT yet answer?
+What additional data or research would make this brief more actionable?</pre>
+    </div>
+
+    <p>This three-step approach turns Claude into a research assistant that helps you think more rigorously — not just produce text.</p>
+  </div>
+
+  <!-- Exercises -->
+  <div class="lesson">
+    <h3><span class="icon">💪</span> Exercises</h3>
+
+    <!-- Exercise 1 -->
+    <div class="try-it">
+      <h4>Exercise 1: Competitor Teardown (10 min)</h4>
+      <p><strong>Scenario:</strong> Your leadership team wants a competitive messaging analysis before next quarter's campaign planning. You need to quickly analyze a competitor's positioning.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Open a new chat in Claude.ai</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Paste this sample competitor copy (or substitute copy from a real competitor's website):</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>Analyze this competitor's marketing copy. The competitor is "ProjectBeam,"
+a project management platform.
+
+Their homepage hero copy:
+"ProjectBeam: Where Teams Do Their Best Work. Trusted by 50,000+ teams
+worldwide, ProjectBeam brings your projects, tasks, and team communication
+into one powerful platform. From startups to Fortune 500, teams use
+ProjectBeam to ship faster, stay aligned, and never miss a deadline."
+
+Their product page:
+"Everything your team needs in one place. ProjectBeam combines task
+management, real-time collaboration, Gantt charts, time tracking, and
+AI-powered workflows into a single platform. No more switching between
+tools. No more lost context. Just pure productivity.
+
+Features: Kanban boards, Gantt timelines, resource management, custom
+dashboards, 200+ integrations, mobile app, enterprise-grade security.
+
+Starting at $12/user/month."
+
+Their 'Why ProjectBeam' page:
+"Teams switch to ProjectBeam because they're tired of tool sprawl.
+The average team uses 6 different apps to manage one project. ProjectBeam
+replaces them all. Our customers report 35% fewer meetings and 2x faster
+project completion after switching."
+
+Based on this copy, provide:
+1. Their positioning summary (3 sentences: who they target, what they claim, how they differentiate)
+2. Their target audience (be specific about company size, role, pain points)
+3. Top 3 messaging strengths (what they do well in their copy)
+4. Top 3 messaging weaknesses (where their copy is vague, generic, or unconvincing)
+5. 3 counter-positioning statements we could use (assuming our differentiator is AI-powered resource allocation that predicts and prevents project delays)</pre>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Review the analysis</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Ask a follow-up:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>Now draft a one-paragraph competitive positioning statement we could use
+internally. It should explain: who ProjectBeam is, where they're strong,
+where they're weak, and how we win against them.</pre>
+      </div>
+
+      <p><strong>What good looks like:</strong> An analysis that goes beyond surface observations. The strengths should identify specific effective copy techniques. The weaknesses should point to real gaps (e.g., "AI-powered workflows" is vague — what do they actually automate?). Counter-positioning should be specific to your actual differentiator.</p>
+    </div>
+
+    <!-- Exercise 2 -->
+    <div class="try-it">
+      <h4>Exercise 2: Quarterly Data Storyteller (8 min)</h4>
+      <p><strong>Scenario:</strong> You need to prepare talking points for a leadership meeting using last quarter's marketing data.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Open a new chat in Claude.ai</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Paste this data table:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>Here is our marketing performance data for the past 4 quarters:
+
+| Metric | Q1 2025 | Q2 2025 | Q3 2025 | Q4 2025 |
+|--------|---------|---------|---------|---------|
+| Website Visits | 45,000 | 52,000 | 48,000 | 67,000 |
+| MQLs | 450 | 520 | 480 | 610 |
+| SQLs | 180 | 195 | 160 | 245 |
+| MQL→SQL Rate | 40% | 37.5% | 33.3% | 40.2% |
+| Closed Deals | 45 | 52 | 38 | 61 |
+| Revenue | $890K | $1.1M | $950K | $1.4M |
+| CAC | $285 | $310 | $340 | $295 |
+| Email List Size | 12,000 | 13,500 | 14,200 | 16,800 |
+| Email Open Rate | 28% | 25% | 23% | 31% |
+| LinkedIn Followers | 8,200 | 9,100 | 9,800 | 12,400 |
+
+Analyze this data and provide:
+1. A 3-sentence executive summary of the full year
+2. The top 3 positive trends
+3. The 2 biggest areas of concern
+4. 5 talking points for a board presentation (each one sentence, lead with the insight not the number)</pre>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Read the analysis. Then ask:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>What are the 5 most likely questions our CEO would ask when seeing this data?
+For each question, draft a concise answer backed by the numbers.</pre>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Finally:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>Q3 was clearly a dip. Write a brief explanation (3-4 sentences) of what
+likely happened in Q3 and why Q4 represents a strong recovery. Frame it
+honestly but positively.</pre>
+      </div>
+
+      <p><strong>What good looks like:</strong> An analysis that spots patterns (Q3 dip and Q4 recovery, improving CAC trend, LinkedIn growth acceleration), not just restates numbers. Talking points that lead with business implications. CEO questions that reflect real executive concerns.</p>
+    </div>
+
+    <!-- Exercise 3 -->
+    <div class="try-it">
+      <h4>Exercise 3: Industry Brief Builder (8 min)</h4>
+      <p><strong>Scenario:</strong> You need a quick research brief on a trending topic for your next team meeting.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Open a new chat in Claude.ai</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Start with the structure:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>I need to create a 1-page research brief on "AI adoption in B2B
+marketing operations" for our marketing leadership team.
+
+What should a thorough brief cover? Give me a recommended outline
+with a description of what each section should contain.
+Keep it focused — this is a 1-page brief, not a whitepaper.</pre>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text">Pick the outline Claude suggests (or adjust it). Then draft the key section:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>Write the executive summary section (150 words max).
+
+What we know:
+- Our company is a B2B SaaS project management tool
+- Our target market is mid-size companies (200-1000 employees)
+- We recently added AI features (smart reporting, resource prediction)
+- Our competitors are all adding AI features too
+- Our customers frequently ask about AI capabilities in demos
+
+Make this actionable for a marketing leader deciding how to position
+AI in our Q2 messaging.</pre>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text">Then identify gaps:</div>
+        </div>
+      </div>
+
+      <div class="prompt-box">
+<pre>What important questions does this brief NOT yet answer?
+What data or research would make it more actionable?
+List 5 specific gaps with suggestions for how to fill them.</pre>
+      </div>
+
+      <p><strong>What good looks like:</strong> A well-structured outline that a non-expert could follow. An executive summary that's specific to your company's situation (not generic AI commentary). Gap analysis that identifies genuinely useful next steps.</p>
+    </div>
+  </div>
+
+  <!-- Workflow: Competitive Intelligence Brief -->
+  <div class="lesson">
+    <h3><span class="icon">🕵️</span> Workflow: Competitive Intelligence Brief</h3>
+    <p>A structured template for analyzing any competitor. Copy this into Claude.ai and fill in the bracketed fields.</p>
+
+    <h4>The Template</h4>
+    <div class="prompt-box">
+<pre>I'm building a competitive intelligence brief. Here is what I know
+about the competitor:
+
+Company: [COMPETITOR NAME]
+Their positioning: [PASTE FROM THEIR WEBSITE — homepage headline, about page, or tagline]
+Their product/features: [PASTE OR SUMMARIZE THEIR KEY FEATURES]
+Their pricing: [IF KNOWN — pricing page info or tier names]
+Their recent news: [PASTE ANY RECENT ANNOUNCEMENTS, PRESS, OR CHANGES]
+
+My company: [YOUR COMPANY NAME]
+Our positioning: [BRIEF SUMMARY OF WHO YOU ARE AND WHAT YOU DO]
+Our key differentiators: [LIST 3-5 THINGS YOU DO BETTER OR DIFFERENTLY]
+
+Please produce:
+1. Executive Summary (3 sentences on who they are, what they do, and their market position)
+2. Target Audience Analysis (who they sell to and how — inferred from their copy and pricing)
+3. Messaging Analysis (key themes, value propositions, and tone of their marketing)
+4. SWOT Analysis (formatted as a 2x2 table: Strengths, Weaknesses, Opportunities, Threats)
+5. Competitive Response Recommendations (3-5 specific actions we should take in our messaging or positioning)
+6. Key Quotes (3-5 notable claims from their materials that we should be prepared to address in sales conversations)</pre>
+    </div>
+
+    <h4>Filled Example Inputs</h4>
+    <div class="prompt-box">
+<pre>Company: ProjectBeam
+Their positioning: "Where Teams Do Their Best Work — trusted by 50,000+
+teams worldwide, bringing projects, tasks, and communication into one platform."
+Their product/features: Kanban boards, Gantt charts, time tracking,
+resource management, 200+ integrations, AI-powered workflows, mobile app.
+Starting at $12/user/month.
+Their recent news: Just launched AI-powered workflows feature in January.
+Announced Series C funding of $80M.
+
+My company: TaskFlow Pro
+Our positioning: AI-powered project management that predicts and prevents
+delays before they happen.
+Our key differentiators:
+1. AI resource allocation that predicts bottlenecks 2 weeks in advance
+2. Automated weekly status reports (SmartReport)
+3. 30% average reduction in project delays for customers
+4. Setup in 5 minutes, no IT required
+5. Purpose-built for mid-size teams (not trying to be everything for everyone)</pre>
+    </div>
+
+    <div class="tip">
+      <ul>
+        <li><strong>Update regularly.</strong> Run this template whenever a competitor makes a major announcement, launches a feature, or changes pricing.</li>
+        <li><strong>Paste actual copy</strong>, not your memory of it. Go to their website and copy/paste — Claude can only analyze what you give it.</li>
+        <li><strong>Combine with web search.</strong> If you have web search enabled, you can ask Claude to search for recent news about the competitor to supplement what you've pasted.</li>
+        <li><strong>Share the output.</strong> The brief this produces is a useful artifact for sales enablement, product marketing, and leadership — save it and distribute it.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Day 4 Takeaways -->
+  <div class="takeaways">
+    <h3>Day 4 Takeaways</h3>
+    <ul>
+      <li><strong>Summarization is audience-dependent</strong> — Always specify who the summary is for. A summary for a sales leader differs fundamentally from one for a CMO.</li>
+      <li><strong>Competitive analysis requires your input</strong> — Paste actual competitor materials rather than asking Claude to recall them. The quality of analysis matches the quality of input.</li>
+      <li><strong>Data storytelling beats data reporting</strong> — Use Claude to turn raw numbers into narratives, talking points, and anticipated questions for leadership meetings.</li>
+      <li><strong>Research briefs in three steps</strong> — Get the structure, fill it in section by section, then identify gaps. Claude helps you think more rigorously, not just write faster.</li>
+    </ul>
+  </div>
+</div>
+<!-- DAY 5 -->
+<div class="day-content" id="day5">
+  <div class="day-header">
+    <h2>Day 5: Advanced Features &amp; Team Workflows</h2>
+    <p class="goal">Set up Projects, create Artifacts, understand Cowork &amp; Code, and establish team conventions.</p>
+    <span class="time">⏱ ~45 minutes</span>
+  </div>
+
+  <!-- Section 1: Projects Deep Dive -->
+  <div class="lesson">
+    <h3><span class="icon">📁</span> Projects Deep Dive</h3>
+    <p>Projects are the single most powerful feature for teams. A Project gives Claude persistent context — so instead of re-explaining your brand, audience, and goals in every conversation, you set it up once and every chat within that Project starts with that knowledge.</p>
+
+    <h4>Creating a Project</h4>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Click <strong>Projects</strong> in the left sidebar (or the "+" icon next to it)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Give it a clear name — use a naming convention like <code>[Team]-[Initiative]-[Quarter]</code><br>Example: <code>Marketing-ProductLaunch-Q2</code><br>Example: <code>Sales-CompetitiveIntel-2025</code></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Write <strong>Custom Instructions</strong> (this is the most important step — see below)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Upload <strong>Knowledge Files</strong> (documents Claude should reference in every conversation)</div>
+      </div>
+    </div>
+
+    <h4>Writing Custom Instructions</h4>
+    <p>Custom Instructions shape every conversation in the Project. Think of them as a brief you give to a new contractor on their first day.</p>
+    <p>A strong set of Custom Instructions includes:</p>
+    <div class="prompt-box">
+Role: You are a marketing strategist supporting the Marketing team at [Company].
+
+Audience: Our target audience is [description — be specific about industry, company size, role, pain points].
+
+Voice: Write in a [tone] voice. Always [positive instructions]. Never [negative instructions].
+
+Constraints: All content must comply with [guidelines — brand guide, legal requirements, etc.]. Maximum length for emails is [N words]. Maximum length for social posts is [N words].
+
+Key facts:
+- Our product is [description]
+- Our key differentiators are [list]
+- Our main competitors are [list]
+
+Output preferences: Unless I specify otherwise, use bullet points for lists, keep paragraphs under 3 sentences, and always include a clear CTA.
+    </div>
+
+    <h4>Uploading Knowledge Files</h4>
+    <p>Upload documents that Claude should reference across all conversations in the Project:</p>
+    <ul>
+      <li><strong>Brand/style guide</strong> — So Claude matches your voice</li>
+      <li><strong>Product documentation</strong> — Features, pricing, positioning</li>
+      <li><strong>Target persona documents</strong> — Who you're writing for</li>
+      <li><strong>Campaign briefs</strong> — Current initiative details</li>
+      <li><strong>Examples of approved content</strong> — So Claude can match the standard</li>
+    </ul>
+    <p>Each Project supports up to 200K tokens of context — roughly equivalent to a 500-page book. That's plenty for most marketing teams.</p>
+
+    <h4>How It Works in Practice</h4>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Open the Project from the sidebar</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Start a new conversation — Claude already knows your brand, audience, and guidelines</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">You can skip the context-setting you've been doing all week and go straight to your task</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Every conversation within the Project benefits from the same instructions and knowledge</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Artifacts -->
+  <div class="lesson">
+    <h3><span class="icon">🎨</span> Artifacts</h3>
+    <p>Artifacts are standalone content pieces that Claude generates in a separate panel alongside the conversation. Think of them as outputs that live outside the chat.</p>
+
+    <h4>When Artifacts Appear</h4>
+    <p>Claude automatically creates Artifacts for:</p>
+    <ul>
+      <li>Longer structured documents (briefs, reports, plans)</li>
+      <li>Tables and data displays</li>
+      <li>Code snippets</li>
+      <li>Anything you explicitly ask to be created as an Artifact</li>
+    </ul>
+
+    <h4>Working with Artifacts</h4>
+    <ul>
+      <li><strong>View</strong> — Artifacts appear in a panel to the right of the conversation</li>
+      <li><strong>Copy</strong> — Click the copy button to grab the content</li>
+      <li><strong>Download</strong> — Save Artifacts as files</li>
+      <li><strong>Edit via chat</strong> — Ask Claude to modify an Artifact by describing the changes</li>
+      <li><strong>Version history</strong> — Compare different iterations using the version selector</li>
+    </ul>
+
+    <h4>Sharing Artifacts</h4>
+    <p>One of the most useful team features:</p>
+    <ul>
+      <li>Click the share button on any Artifact to get a shareable link</li>
+      <li>Anyone with the link can view and use the Artifact</li>
+      <li>They can even interact with AI-powered Artifacts using their own Claude account</li>
+      <li>Sharing is free — usage counts against each viewer's own plan</li>
+    </ul>
+
+    <h4>When to Use Artifacts</h4>
+    <ul>
+      <li>Generating a campaign brief you'll share with the team</li>
+      <li>Creating a spreadsheet-style comparison table</li>
+      <li>Building a document that needs multiple rounds of revision</li>
+      <li>Any output that needs to live beyond the conversation</li>
+    </ul>
+  </div>
+
+  <!-- Section 3: Team Features -->
+  <div class="lesson">
+    <h3><span class="icon">👥</span> Team Features</h3>
+
+    <h4>Sharing Conversations</h4>
+    <p>You can share specific conversations with teammates:</p>
+    <ul>
+      <li>Useful for showing your thought process or a particularly good Claude interaction</li>
+      <li>Team members can view shared conversations and continue working from where you left off</li>
+    </ul>
+
+    <h4>Team Administration</h4>
+    <p>Your Team/Enterprise plan includes:</p>
+    <ul>
+      <li><strong>Seats</strong> — Each team member gets their own account with full access</li>
+      <li><strong>Usage limits</strong> — Higher limits than individual plans; check with your admin for specifics</li>
+      <li><strong>Privacy</strong> — By default, your conversations are private. Only conversations and Projects you explicitly share are visible to teammates.</li>
+    </ul>
+
+    <h4>Chat Search</h4>
+    <p>Claude can search across your conversation history within your account:</p>
+    <ul>
+      <li>"Have we ever discussed [topic]?"</li>
+      <li>"What was I working on before the holiday break?"</li>
+      <li>"What were the next steps from my competitive analysis last week?"</li>
+    </ul>
+    <p>This works across individual chats and within Projects.</p>
+  </div>
+
+  <!-- Section 4: Beyond Chat -->
+  <div class="lesson">
+    <h3><span class="icon">🚀</span> Beyond Chat: Cowork &amp; Code</h3>
+    <p>Standard chat is ideal for most daily tasks. But Claude offers two additional modes for when you need something different.</p>
+
+    <h4>Cowork</h4>
+    <p><strong>What it is:</strong> Cowork lets Claude work on longer tasks autonomously in the background. Instead of a back-and-forth conversation, you give Claude a task and it works on it independently — like assigning work to a capable colleague.</p>
+    <p><strong>When to use it instead of chat:</strong></p>
+    <ul>
+      <li>Drafting a long document (10+ pages) where you'd rather review a finished product than iterate step-by-step</li>
+      <li>Processing a large batch of similar tasks (e.g., rewriting 20 product descriptions)</li>
+      <li>Research and analysis tasks where Claude needs to do multiple steps on its own</li>
+      <li>Any task where you'd prefer to do other work while Claude works in parallel</li>
+    </ul>
+    <p><strong>How it works:</strong> Start a Cowork session from the Claude interface. Describe what you want as if you were briefing a colleague: clear objectives, context, and what "done" looks like. Claude works on it and notifies you when it's ready for review.</p>
+    <div class="tip">Chat is a conversation. Cowork is a delegation.</div>
+
+    <h4>Code</h4>
+    <p><strong>What it is:</strong> Claude Code is a command-line interface (CLI) tool for software development. It lets Claude read, write, and modify code directly in a developer's terminal.</p>
+    <p><strong>When it's relevant to you:</strong></p>
+    <ul>
+      <li>If you work closely with engineering or have technical teammates, they may use Claude Code for writing code, debugging, and building features</li>
+      <li>You don't need to learn Claude Code yourself, but understanding it exists helps you collaborate with technical teammates who use it</li>
+      <li>It's included in your Team/Enterprise plan</li>
+    </ul>
+    <div class="important">Claude Code works directly with code files on a developer's computer, while Claude.ai chat works with text in a browser. Chat is your tool; Code is your engineering team's tool. Both are powered by the same Claude AI.</div>
+  </div>
+
+  <!-- Section 5: Building Team Conventions -->
+  <div class="lesson">
+    <h3><span class="icon">📋</span> Building Team Conventions</h3>
+    <p>The difference between a team that gets value from Claude and one that doesn't is usually conventions — shared agreements on how to use the tool.</p>
+
+    <h4>1. Create a Shared Prompt Library</h4>
+    <p>Set up a Project specifically for shared prompts:</p>
+    <ul>
+      <li>Name it something like <code>Team-PromptLibrary</code></li>
+      <li>Upload your best prompt templates as knowledge files</li>
+      <li>When someone discovers a prompt that works well, add it to the library</li>
+      <li>New team members start here to see what's already been figured out</li>
+    </ul>
+
+    <h4>2. Establish Naming Conventions for Projects</h4>
+    <p>Agree on a format so everyone can find things:</p>
+    <ul>
+      <li><code>[Team]-[Initiative]-[Quarter]</code> for campaign-specific Projects</li>
+      <li><code>[Team]-[Always-On]</code> for persistent Projects (like brand voice or competitive intel)</li>
+      <li>Avoid personal projects in shared spaces — those can be individual</li>
+    </ul>
+
+    <h4>3. Write Team-Wide Custom Instructions</h4>
+    <p>For shared Projects, include instructions that apply to everyone:</p>
+    <ul>
+      <li>Brand voice and tone requirements</li>
+      <li>Compliance or legal constraints</li>
+      <li>Output format standards (e.g., "always use metric units," "always include a CTA")</li>
+      <li>Information that should never be shared externally</li>
+    </ul>
+
+    <h4>4. Onboard New Team Members</h4>
+    <p>Point new hires to:</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">This training course (start with Day 1)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Your team's shared Prompt Library Project</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Any active campaign Projects they need access to</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">The Cheat Sheet for quick reference</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exercise 1 -->
+  <div class="try-it">
+    <h4>Exercise 1: Build Your First Project (10 min)</h4>
+    <p><strong>Scenario:</strong> You're setting up a Project for an upcoming campaign so your whole team can use Claude with consistent context.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">In Claude.ai, click <strong>Projects</strong> in the left sidebar, then create a new Project</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Name it using the convention: <code>Marketing-[YourCampaign]-Q2</code> (use a real campaign name or invent one like <code>Marketing-SmartReportLaunch-Q2</code>)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Write Custom Instructions. Paste and customize this template:</div>
+      </div>
+    </div>
+    <div class="prompt-box">
+Role: You are a senior marketing strategist supporting the Marketing team at [YOUR COMPANY].
+
+Audience: Our target audience is marketing operations managers at mid-size B2B companies (200-1000 employees). They are hands-on practitioners who manage campaign execution, reporting, and marketing technology. Their biggest frustration is spending too much time on manual reporting.
+
+Voice: Write in a direct, conversational tone. Be confident but not arrogant. Use concrete examples and specific numbers whenever possible. Never use buzzwords like "synergy," "leverage," or "game-changer." Never start a piece with "In today's fast-paced world" or similar cliches.
+
+Product context:
+- Product name: [YOUR PRODUCT] (or use "TaskFlow Pro" if practicing)
+- Key feature being launched: AI-powered weekly report generation (SmartReport)
+- Key stat: Customers save an average of 4 hours per week on reporting
+- Competitors: ProjectBeam, WorkHub, PlanStack
+
+Output defaults: Unless I specify otherwise, keep emails under 150 words, social posts under 200 words, and use bullet points for any list with 3+ items.
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Upload at least one Knowledge File — use your brand guide, a product one-pager, or any relevant document. If you don't have one handy, skip this step and add files later.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text">Start a conversation <strong>inside the Project</strong> and test it:</div>
+      </div>
+    </div>
+    <div class="prompt-box">
+Write a LinkedIn post announcing the SmartReport feature launch.
+    </div>
+    <p>Notice how Claude uses the voice, audience context, and product details from your instructions without you having to specify them again.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-text">Try a second test to see the instructions working across different tasks:</div>
+      </div>
+    </div>
+    <div class="prompt-box">
+Write a subject line and opening paragraph for a cold email to a marketing ops manager about SmartReport.
+    </div>
+    <p><strong>What good looks like:</strong> Both outputs should reflect your custom instructions — correct tone, audience awareness, product details — without you repeating that context. This is the power of Projects: set it once, use it everywhere.</p>
+  </div>
+
+  <!-- Exercise 2 -->
+  <div class="try-it">
+    <h4>Exercise 2: Artifact Workshop (7 min)</h4>
+    <p><strong>Scenario:</strong> You need to create a campaign brief and a social media calendar as shareable documents.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Open a new chat (inside your Project from Exercise 1, or in a regular chat)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Ask Claude to create a campaign brief:</div>
+      </div>
+    </div>
+    <div class="prompt-box">
+Create a campaign brief for the SmartReport product launch as an Artifact.
+
+Include:
+- Campaign name and objective
+- Target audience
+- Key messages (3)
+- Channels: Email, LinkedIn, one webinar
+- Timeline: 6 weeks starting April 1
+- Success metrics: MQLs, demo requests, trial signups
+- Budget: $50K
+
+Format it as a professional document with clear sections.
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">The brief should appear as an Artifact in the right panel. Review it.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Now ask for a second Artifact in the same conversation:</div>
+      </div>
+    </div>
+    <div class="prompt-box">
+Now create a social media content calendar for the first 2 weeks of this campaign as an Artifact. Format it as a table with columns: Date, Platform, Post Type, Topic/Angle, CTA.
+
+Include 3 posts per week across LinkedIn and Twitter.
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text">Practice working with Artifacts:
+          <ul>
+            <li>Click between the two Artifacts to view each one</li>
+            <li>Copy one to your clipboard</li>
+            <li>If you see a download option, download one as a file</li>
+            <li>Click the share button to see sharing options (you don't have to share it)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <p><strong>What good looks like:</strong> Two well-structured Artifacts that are ready to share with your team. The campaign brief should be comprehensive enough to align stakeholders. The calendar should be specific enough to hand to a content creator.</p>
+  </div>
+
+  <!-- Exercise 3 -->
+  <div class="try-it">
+    <h4>Exercise 3: Team Prompt Library (8 min)</h4>
+    <p><strong>Scenario:</strong> You've been using Claude all week and discovered prompts that work well. Now you'll formalize them into shareable templates for your team.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Open a new chat in Claude.ai</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Think of 3 prompts you used this week that produced good results. If you can't recall specific ones, use these three tasks:
+          <ul>
+            <li>Writing a follow-up email after a meeting</li>
+            <li>Creating a competitive positioning statement</li>
+            <li>Repurposing a blog post for social media</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Ask Claude to help you formalize them:</div>
+      </div>
+    </div>
+    <div class="prompt-box">
+I want to create a prompt template library for my marketing team. Help me turn these 3 tasks into clean, reusable prompt templates with clear placeholder variables in [BRACKETS].
+
+Task 1: Writing a follow-up email after a sales meeting
+Task 2: Creating a competitive positioning statement
+Task 3: Repurposing a blog post for social media
+
+For each template:
+- Give it a clear name
+- Write the full prompt with [PLACEHOLDER] variables
+- Add a 1-line usage note explaining when to use it
+- Keep each template under 150 words
+
+Format these so they could be saved as a reference document.
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Review the templates. Refine any that don't match your needs:</div>
+      </div>
+    </div>
+    <div class="prompt-box">
+For template #[N], adjust the tone instruction to [YOUR PREFERENCE] and add a placeholder for [SOMETHING YOU WANT TO INCLUDE].
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><strong>Optional:</strong> Create a new Project called <code>Team-PromptLibrary</code>, paste the finalized templates into the Custom Instructions or upload them as a Knowledge File, and share it with your team.</div>
+      </div>
+    </div>
+    <p><strong>What good looks like:</strong> Three templates that are specific enough to produce good results but generic enough to work across different situations. Clear placeholders that make it obvious what information needs to be filled in. A format that's easy for a teammate to scan and use.</p>
+  </div>
+
+  <!-- Workflow: Team Project Setup Playbook -->
+  <div class="lesson">
+    <h3><span class="icon">🗺️</span> Workflow: Team Project Setup Playbook</h3>
+    <p>Use this checklist every time you set up a new shared Project for your team. Copy it into a document or use it directly as a step-by-step guide.</p>
+
+    <h4>Step 1: Define the Project</h4>
+    <ul>
+      <li><strong>Project Name:</strong> Use the format <code>[Team]-[Initiative]-[Quarter]</code>
+        <ul>
+          <li>Example: <code>Marketing-ProductLaunch-Q2</code></li>
+          <li>Example: <code>Sales-CompetitiveIntel-2025</code></li>
+          <li>For ongoing work, use: <code>Marketing-BrandVoice-AlwaysOn</code></li>
+        </ul>
+      </li>
+      <li><strong>Purpose:</strong> Write one sentence describing what this Project is for</li>
+      <li><strong>Participants:</strong> List who should have access</li>
+    </ul>
+
+    <h4>Step 2: Write Custom Instructions</h4>
+    <p>Include all of these sections in your Project's Custom Instructions:</p>
+    <div class="prompt-box">
+Role: You are a [ROLE] supporting the [TEAM] team at [COMPANY].
+
+Audience: Our target audience is [DETAILED DESCRIPTION — include industry, company size, job titles, pain points].
+
+Voice: Write in a [TONE] voice. Always [DO THIS]. Never [DON'T DO THIS].
+
+Product/service context:
+- [KEY FACT 1]
+- [KEY FACT 2]
+- [KEY FACT 3]
+
+Constraints:
+- All content must comply with [GUIDELINES OR POLICIES]
+- Maximum length for [CONTENT TYPE] is [N WORDS]
+- Always include [REQUIRED ELEMENTS]
+- Never include [PROHIBITED ELEMENTS]
+
+Output defaults: Unless otherwise specified, [FORMAT PREFERENCES — e.g., use bullet points, keep paragraphs short, include CTAs].
+    </div>
+
+    <h4>Step 3: Upload Knowledge Files</h4>
+    <p>Upload these types of documents (whatever you have available):</p>
+    <ul>
+      <li>Brand or style guide</li>
+      <li>Product documentation or feature sheets</li>
+      <li>Target persona documents</li>
+      <li>Current campaign brief or strategy document</li>
+      <li>Examples of approved content (2-3 pieces that represent your standard)</li>
+      <li>Competitive positioning or battle cards</li>
+      <li>Any relevant compliance or legal guidelines</li>
+    </ul>
+
+    <h4>Step 4: Test the Project</h4>
+    <p>Before sharing with your team:</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Start a conversation in the Project</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Ask for something simple without giving extra context: "Write a LinkedIn post about our latest feature."</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Check: Does the output reflect your custom instructions? Does it match the tone, audience, and product details?</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">If not, adjust the Custom Instructions and test again</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text">Try 2-3 different task types (email, social post, brief) to make sure instructions work broadly</div>
+      </div>
+    </div>
+
+    <h4>Step 5: Share with Your Team</h4>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Add team members to the Project using the sharing settings</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Send them a brief message explaining:
+          <ul>
+            <li>What the Project is for</li>
+            <li>What's in the Custom Instructions (so they understand the context Claude has)</li>
+            <li>What Knowledge Files are uploaded</li>
+            <li>Any conventions to follow (e.g., "start each conversation with the specific task, not background context")</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Ask for feedback after the first week — refine instructions based on what's working and what isn't</div>
+      </div>
+    </div>
+
+    <h4>Ongoing Maintenance</h4>
+    <ul>
+      <li><strong>Monthly:</strong> Review and update Knowledge Files if product info, messaging, or strategy has changed</li>
+      <li><strong>Quarterly:</strong> Refresh Custom Instructions to match current campaigns and priorities</li>
+      <li><strong>As needed:</strong> Add new Knowledge Files when major documents are created (new case studies, updated positioning, new competitor analysis)</li>
+    </ul>
+  </div>
+
+  <!-- Day 5 Takeaways -->
+  <div class="takeaways">
+    <h3>Day 5 Takeaways</h3>
+    <ul>
+      <li><strong>Projects</strong> give Claude persistent context — set up your brand, audience, and guidelines once and every conversation starts with that knowledge.</li>
+      <li><strong>Custom Instructions</strong> are the most important part of a Project — include role, audience, voice, constraints, and output preferences.</li>
+      <li><strong>Knowledge Files</strong> let you upload brand guides, product docs, and personas so Claude can reference them in every conversation.</li>
+      <li><strong>Artifacts</strong> are standalone content pieces that can be copied, downloaded, shared, and edited through follow-up messages.</li>
+      <li><strong>Cowork</strong> lets Claude work autonomously on longer tasks in the background — like delegating to a colleague.</li>
+      <li><strong>Claude Code</strong> is for your engineering team — it works directly with code files on a developer's computer.</li>
+      <li><strong>Team conventions</strong> — shared prompt libraries, naming standards, and onboarding processes — are what separate teams that get value from Claude from those that don't.</li>
+      <li>You now have real infrastructure: a working Project, experience with Artifacts, and a prompt library ready to share.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- RESOURCES -->
+<div class="day-content" id="day6">
+  <div class="day-header">
+    <h2>Resources &amp; Reference</h2>
+    <p class="goal">Quick-reference cheat sheet, do's and don'ts, glossary, and 18 ready-to-paste prompt templates.</p>
+    <span class="time">📚 Reference Material</span>
+  </div>
+
+  <!-- Cheat Sheet -->
+  <div class="lesson">
+    <h3><span class="icon">⚡</span> Cheat Sheet</h3>
+    <p>One-page quick reference. Print this or keep it open while you work.</p>
+
+    <h4>The Prompt Formula</h4>
+    <p><strong>Role + Task + Context + Format</strong></p>
+    <div class="prompt-box">
+You are a [ROLE].
+[TASK — what you need].
+Context: [BACKGROUND DETAILS].
+Format: [TONE, LENGTH, STRUCTURE, CONSTRAINTS].
+    </div>
+
+    <h4>Interface Quick Map</h4>
+    <table>
+      <tr>
+        <th>Area</th>
+        <th>What It Does</th>
+      </tr>
+      <tr>
+        <td><strong>New Chat</strong> (top of sidebar)</td>
+        <td>Start a fresh conversation</td>
+      </tr>
+      <tr>
+        <td><strong>Search</strong> (sidebar)</td>
+        <td>Find past conversations by keyword</td>
+      </tr>
+      <tr>
+        <td><strong>Projects</strong> (sidebar)</td>
+        <td>Persistent workspaces with custom instructions + knowledge files</td>
+      </tr>
+      <tr>
+        <td><strong>Paperclip icon</strong> (message box)</td>
+        <td>Upload files or connect Google Drive</td>
+      </tr>
+      <tr>
+        <td><strong>Model selector</strong> (message box)</td>
+        <td>Choose Sonnet (fast) or Opus (most capable)</td>
+      </tr>
+      <tr>
+        <td><strong>Profile icon</strong> (bottom-left)</td>
+        <td>Account settings, team info, connected apps</td>
+      </tr>
+    </table>
+
+    <h4>Top 10 Refinement Phrases</h4>
+    <p>Use these after Claude's first response to dial in the output:</p>
+    <ol>
+      <li>"Make it shorter — under [N] words."</li>
+      <li>"Make the tone more [casual / formal / urgent]."</li>
+      <li>"Rewrite the [first paragraph / CTA / headline] to be more [specific quality]."</li>
+      <li>"Add [a stat / a quote / a deadline] to the [section]."</li>
+      <li>"Remove the [section / paragraph about X]."</li>
+      <li>"Give me 3 alternative versions of the [headline / subject line / CTA]."</li>
+      <li>"Keep everything but change [specific element]."</li>
+      <li>"This is 80% there. Specifically adjust [what needs to change]."</li>
+      <li>"Rewrite this for a [different audience] instead."</li>
+      <li>"Review this for grammar, clarity, and flow. Fix any issues."</li>
+    </ol>
+
+    <h4>New Chat vs. Continue?</h4>
+    <table>
+      <tr>
+        <th>Situation</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>Structure is right, need detail changes</td>
+        <td><strong>Continue</strong> in the same chat</td>
+      </tr>
+      <tr>
+        <td>Fundamental approach is wrong</td>
+        <td><strong>Start new chat</strong> with a better prompt</td>
+      </tr>
+      <tr>
+        <td>Conversation exceeds 10+ exchanges</td>
+        <td><strong>Start new chat</strong> — Claude can lose focus in very long threads</td>
+      </tr>
+    </table>
+
+    <h4>Projects in 30 Seconds</h4>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Create</strong> a Project with a clear name (<code>Team-Initiative-Quarter</code>)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Write Custom Instructions</strong> — role, audience, voice, constraints</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Upload Knowledge Files</strong> — brand guide, product docs, personas</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>Every chat in the Project</strong> automatically uses that context</div>
+      </div>
+    </div>
+
+    <h4>Always Verify</h4>
+    <p>Before using any Claude output:</p>
+    <ul>
+      <li><strong>Facts</strong> — Are specific claims, statistics, and dates accurate?</li>
+      <li><strong>Tone</strong> — Does it match your brand and the situation?</li>
+      <li><strong>Completeness</strong> — Did it include everything you asked for?</li>
+    </ul>
+    <div class="important">Claude is a drafting partner, not a fact database. You are the editor-in-chief.</div>
+
+    <h4>Prompt Generator</h4>
+    <p>Use the internal <strong><a href="https://claude.ai/project/0197ad63-8685-75cc-8209-1279d717bd5e" target="_blank">Prompt Generator</a></strong> to quickly build structured prompts using the Role + Task + Context + Format formula. Bookmark this link for easy access.</p>
+  </div>
+
+  <!-- Do's and Don'ts -->
+  <div class="lesson">
+    <h3><span class="icon">✅</span> Do's and Don'ts</h3>
+    <p>The 10 most common mistakes new Claude users make, and what to do instead.</p>
+    <table>
+      <tr>
+        <th>#</th>
+        <th>DO</th>
+        <th>DON'T</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td><strong>Paste in existing content as context</strong> — brand guides, previous emails, competitor copy, raw notes. Claude works best with your actual materials.</td>
+        <td><strong>Expect Claude to know your brand voice, product, or audience without examples.</strong> It can't read your mind or your website unless you paste it in.</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>Ask Claude to critique its own output</strong> — "Review this as a senior editor and identify weaknesses." Then ask it to revise based on its critique.</td>
+        <td><strong>Accept the first draft without review.</strong> The Draft-Critique-Revise loop produces significantly better results than a single pass.</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>Give specific constraints</strong> — tone, word count, audience, required elements, and things to avoid. More detail = better output.</td>
+        <td><strong>Write one-sentence prompts for complex tasks.</strong> "Write me a blog post" will get you generic content. Specificity is the single biggest lever.</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><strong>Verify factual claims</strong> — statistics, dates, quotes, competitor information, and any specific claims. Always check before publishing.</td>
+        <td><strong>Treat Claude's output as researched fact.</strong> Claude can generate plausible-sounding but incorrect information. You are the fact-checker.</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td><strong>Iterate with specific feedback</strong> — "Make the CTA softer" or "Cut the second paragraph" tells Claude exactly what to change.</td>
+        <td><strong>Give vague feedback like "make it better" or "try again."</strong> Claude needs to know what specifically isn't working to fix it.</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td><strong>Upload files for long documents</strong> — use the paperclip icon for PDFs, CSVs, and documents. Claude reads the entire file.</td>
+        <td><strong>Manually summarize a 20-page document before pasting it in.</strong> Just upload the file and let Claude read the original.</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td><strong>Use Projects for recurring work</strong> — set up custom instructions and knowledge files once, then every conversation starts with that context.</td>
+        <td><strong>Re-explain your brand, audience, and product in every single conversation.</strong> That's what Projects are for.</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td><strong>Build reusable prompt templates</strong> — when a prompt works well, save it with <code>[PLACEHOLDER]</code> variables so you can use it again.</td>
+        <td><strong>Write every prompt from scratch.</strong> Most of your tasks fall into recurring categories. Templatize what works.</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td><strong>Use negative instructions</strong> — "Do not use jargon," "Do not start with a cliche," "Do not exceed 150 words."</td>
+        <td><strong>Hope Claude avoids bad patterns on its own.</strong> If you don't want something, say so explicitly.</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td><strong>Share your best prompts with teammates</strong> — contribute to a shared prompt library so the whole team benefits.</td>
+        <td><strong>Keep effective prompts to yourself.</strong> Siloed usage means the team learns slower and produces inconsistent output.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Glossary -->
+  <div class="lesson">
+    <h3><span class="icon">📖</span> Glossary</h3>
+    <p>Plain-language definitions of terms you'll encounter when using Claude.ai.</p>
+    <dl>
+      <dt><strong>Artifact</strong></dt>
+      <dd>A standalone content piece (document, table, code, etc.) that Claude generates in a separate panel next to the conversation. Artifacts can be copied, downloaded, shared, and edited through follow-up messages.</dd>
+
+      <dt><strong>Attachment</strong></dt>
+      <dd>A file you upload to a conversation using the paperclip icon. Claude can read PDFs, Word documents, CSVs, images, and other file types.</dd>
+
+      <dt><strong>Claude Code</strong></dt>
+      <dd>A command-line tool for software developers that lets Claude read and write code directly on a developer's computer. Included in Team and Enterprise plans but used by technical teammates, not in the web interface.</dd>
+
+      <dt><strong>Compliance API</strong></dt>
+      <dd>Enterprise-level tools that let IT administrators monitor and audit Claude usage across the organization. Not something most users interact with directly.</dd>
+
+      <dt><strong>Context Window</strong></dt>
+      <dd>The total amount of text Claude can "see" in a single conversation, including your messages, Claude's responses, uploaded files, and Project instructions. Team/Enterprise plans have a 200,000-token window — roughly 500 pages.</dd>
+
+      <dt><strong>Conversation</strong></dt>
+      <dd>A single chat thread with Claude. Each conversation is independent — Claude doesn't remember other conversations unless you're using a Project with shared context.</dd>
+
+      <dt><strong>Cowork</strong></dt>
+      <dd>A mode where Claude works on longer tasks autonomously in the background, like assigning work to a colleague. You describe the task, Claude works on it, and notifies you when it's ready for review.</dd>
+
+      <dt><strong>Custom Instructions</strong></dt>
+      <dd>Text you write in a Project that shapes Claude's behavior in every conversation within that Project. Used to define role, audience, voice, constraints, and other persistent context.</dd>
+
+      <dt><strong>Extended Thinking</strong></dt>
+      <dd>A capability where Claude spends more time reasoning through complex problems before responding. Results in higher quality output for difficult analytical or strategic tasks.</dd>
+
+      <dt><strong>Hallucination</strong></dt>
+      <dd>When Claude generates information that sounds plausible but is factually incorrect. This is why you should always verify specific claims, statistics, and dates in Claude's output.</dd>
+
+      <dt><strong>Knowledge File</strong></dt>
+      <dd>A document uploaded to a Project that Claude can reference in every conversation within that Project. Common examples: brand guides, product docs, persona documents.</dd>
+
+      <dt><strong>Model</strong></dt>
+      <dd>The specific version of Claude you're using. Sonnet is faster for everyday tasks; Opus is the most capable for complex reasoning. You can select the model using the dropdown in the message box.</dd>
+
+      <dt><strong>MCP (Model Context Protocol)</strong></dt>
+      <dd>A system that lets Claude connect to external tools and services like Google Calendar, Asana, or Slack. Available on Team and Enterprise plans.</dd>
+
+      <dt><strong>Prompt</strong></dt>
+      <dd>The message you send to Claude. A well-structured prompt includes a role, task, context, and format specification. Better prompts produce dramatically better output.</dd>
+
+      <dt><strong>Project</strong></dt>
+      <dd>A persistent workspace in Claude.ai with custom instructions and knowledge files. Every conversation within a Project starts with the same context, eliminating the need to re-explain your brand, audience, and goals.</dd>
+
+      <dt><strong>Role Prompting</strong></dt>
+      <dd>A technique where you tell Claude who to be (e.g., "You are a senior marketing editor") to shape its writing style and perspective. One of the most effective simple techniques.</dd>
+
+      <dt><strong>Starred Conversation</strong></dt>
+      <dd>A conversation you've pinned for easy access using the star icon. Useful for frequently referenced chats.</dd>
+
+      <dt><strong>Tokens</strong></dt>
+      <dd>The units Claude uses to measure text. Roughly 1 token = 0.75 words. Token limits determine how much text fits in a conversation or Project.</dd>
+
+      <dt><strong>Web Search</strong></dt>
+      <dd>Claude's ability to search the internet for current information during a conversation. Enabled by default on Team and Enterprise plans.</dd>
+    </dl>
+  </div>
+
+  <!-- Prompt Templates: Outbound Sales -->
+  <div class="lesson">
+    <h3><span class="icon">📧</span> Prompt Templates: Outbound Sales</h3>
+    <p>Ready-to-paste templates. Copy any template into Claude.ai and fill in the <code>[BRACKETED PLACEHOLDERS]</code>.</p>
+
+    <h4>1. Cold Outreach Email</h4>
+    <div class="prompt-box">
+Write a cold outreach email.
+
+Sender: [YOUR NAME], [YOUR TITLE] at [YOUR COMPANY]
+Recipient: [THEIR TITLE] at a [COMPANY SIZE] [INDUSTRY] company
+Goal: [DESIRED ACTION — e.g., book a 15-minute introductory call]
+Our value prop: [ONE SENTENCE]
+Proof point: [STAT OR CUSTOMER RESULT]
+
+Tone: professional but human
+Length: under 100 words
+Open with their problem, not our product.
+End with a low-commitment question.
+Do not use: "just reaching out," "I hope this finds you well"
+    </div>
+    <p><em>Use for: First touch to a cold prospect.</em></p>
+
+    <h4>2. Follow-Up Email (No Response)</h4>
+    <div class="prompt-box">
+I sent this email [NUMBER] days ago and got no response:
+[PASTE YOUR ORIGINAL EMAIL]
+
+Write a follow-up that:
+- References the original without repeating it
+- Adds a new angle or piece of value
+- Is shorter than the original
+- Does not say "just following up" or "checking in"
+- Ends with a yes/no question to make replying easy
+    </div>
+    <p><em>Use for: Second or third touch when a prospect hasn't replied.</em></p>
+
+    <h4>3. Objection Handling Email</h4>
+    <div class="prompt-box">
+A prospect raised this objection: "[EXACT OBJECTION — e.g., 'We're already using ProjectBeam and don't want to switch tools right now.']"
+
+Write a reply email that:
+- Acknowledges their concern without being dismissive
+- Addresses the objection with [SPECIFIC COUNTER-POINT OR PROOF]
+- Offers a low-commitment next step (not a hard sell)
+- Tone: empathetic and consultative
+- Length: under 120 words
+    </div>
+    <p><em>Use for: Responding to specific sales objections via email.</em></p>
+
+    <h4>4. Meeting Request Email</h4>
+    <div class="prompt-box">
+Write an email requesting a meeting.
+
+Context: [WHY YOU WANT TO MEET — what you'll discuss and why it's valuable to them]
+Recipient: [THEIR ROLE AND COMPANY TYPE]
+Proposed format: [15-min call / 30-min demo / lunch meeting]
+Urgency: [TIME-SENSITIVE REASON OR "no specific deadline"]
+
+Tone: respectful of their time, confident in the value
+Length: under 100 words
+Include 2-3 suggested time slots or a calendar link CTA.
+    </div>
+    <p><em>Use for: Requesting introductory meetings or demos.</em></p>
+  </div>
+
+  <!-- Prompt Templates: Marketing Content -->
+  <div class="lesson">
+    <h3><span class="icon">📝</span> Prompt Templates: Marketing Content</h3>
+
+    <h4>5. Blog Post</h4>
+    <div class="prompt-box">
+Write a blog post about [TOPIC].
+
+Target audience: [WHO — role, industry, level of expertise]
+Goal: [Drive traffic / educate / generate leads / build authority]
+Key points to cover:
+- [POINT 1]
+- [POINT 2]
+- [POINT 3]
+
+Length: [WORD COUNT] words
+Tone: [TONE]
+Include: specific examples, data where possible, a clear CTA at the end
+SEO keywords to include naturally: [KEYWORD 1], [KEYWORD 2]
+Structure: intro hook, [N] main sections with subheadings, conclusion with CTA
+    </div>
+    <p><em>Use for: Creating blog content from scratch.</em></p>
+
+    <h4>6. Social Media Post</h4>
+    <div class="prompt-box">
+Write a [PLATFORM — LinkedIn / Twitter / Instagram] post about [TOPIC].
+
+Context: [WHAT HAPPENED, WHAT YOU'RE ANNOUNCING, OR WHAT POINT YOU'RE MAKING]
+Tone: [TONE — conversational / professional / bold / thoughtful]
+Length: [WORD COUNT OR CHARACTER LIMIT]
+Include: [SPECIFIC ELEMENTS — stat, question, CTA, hashtags (max 3)]
+Avoid: [WHAT NOT TO DO — generic phrases, buzzwords, excessive hashtags]
+    </div>
+    <p><em>Use for: Creating individual social posts for any platform.</em></p>
+
+    <h4>7. Case Study</h4>
+    <div class="prompt-box">
+Write a case study using this structure:
+
+Customer: [COMPANY NAME, SIZE, INDUSTRY]
+Situation: [THEIR CONTEXT BEFORE USING YOUR PRODUCT]
+Challenge: [SPECIFIC PROBLEM THEY WERE FACING]
+Solution: [HOW THEY USED YOUR PRODUCT]
+Result: [QUANTIFIED OUTCOMES — numbers, percentages, time saved]
+
+Include:
+- A headline that leads with the result (e.g., "[Company] Reduced [Problem] by [X]%")
+- A 2-sentence executive summary at the top
+- A realistic pull quote from the customer
+- Specific numbers throughout
+
+Length: [WORD COUNT] words
+Tone: professional but story-driven
+    </div>
+    <p><em>Use for: Writing customer success stories.</em></p>
+
+    <h4>8. Press Release</h4>
+    <div class="prompt-box">
+Write a press release announcing [NEWS].
+
+Company: [YOUR COMPANY NAME AND BRIEF DESCRIPTION]
+News: [WHAT YOU'RE ANNOUNCING]
+Why it matters: [SIGNIFICANCE TO THE MARKET OR CUSTOMERS]
+Quote from: [NAME, TITLE] — focus the quote on [KEY MESSAGE]
+Availability: [WHEN AND HOW PEOPLE CAN ACCESS/USE THIS]
+Boilerplate: [YOUR COMPANY DESCRIPTION — 2-3 sentences]
+Contact: [NAME, EMAIL]
+
+Format: Standard press release format with headline, dateline, body, boilerplate
+Length: 400-500 words
+Tone: newsworthy and factual, not promotional
+    </div>
+    <p><em>Use for: Drafting press releases for product launches, partnerships, or milestones.</em></p>
+  </div>
+
+  <!-- Prompt Templates: Research & Analysis -->
+  <div class="lesson">
+    <h3><span class="icon">🔍</span> Prompt Templates: Research &amp; Analysis</h3>
+
+    <h4>9. Competitor Analysis</h4>
+    <div class="prompt-box">
+Analyze this competitor based on the following materials:
+
+Competitor: [NAME]
+Their materials: [PASTE WEBSITE COPY, PRODUCT DESCRIPTIONS, OR UPLOAD PDF]
+
+Our company: [YOUR COMPANY]
+Our differentiators: [LIST 3-5]
+
+Produce:
+1. Their positioning summary (3 sentences)
+2. Their target audience (inferred from their copy)
+3. Messaging strengths and weaknesses
+4. 3 counter-positioning statements we can use
+    </div>
+    <p><em>Use for: Quick competitive messaging analysis.</em></p>
+
+    <h4>10. Market Summary</h4>
+    <div class="prompt-box">
+Based on the following information, write a market summary on [TOPIC]:
+
+[PASTE ARTICLES, DATA, OR NOTES YOU'VE COLLECTED]
+
+Target audience for this summary: [WHO WILL READ THIS — e.g., marketing leadership]
+Scope: [WHAT ASPECTS TO COVER — trends, opportunities, threats, sizing]
+Depth: [EXECUTIVE OVERVIEW / DETAILED ANALYSIS]
+Length: [WORD COUNT] words
+Include: key takeaways, implications for our business, recommended actions
+    </div>
+    <p><em>Use for: Synthesizing research into an actionable summary.</em></p>
+
+    <h4>11. Data Interpretation</h4>
+    <div class="prompt-box">
+Here is our data:
+[PASTE TABLE OR UPLOAD CSV]
+
+Analyze this data and provide:
+1. Executive summary (3 sentences)
+2. Top [N] trends or patterns
+3. Areas of concern with suggested next steps
+4. [N] talking points for a [AUDIENCE] presentation
+    </div>
+    <p><em>Use for: Turning numbers into narrative and talking points.</em></p>
+
+    <h4>12. Customer Persona Builder</h4>
+    <div class="prompt-box">
+Help me build a customer persona based on what we know:
+
+Demographics: [AGE RANGE, ROLE, INDUSTRY, COMPANY SIZE]
+Pain points: [WHAT FRUSTRATES THEM — list 3-5]
+Goals: [WHAT THEY'RE TRYING TO ACHIEVE]
+Common objections: [WHAT THEY SAY WHEN THEY DON'T BUY]
+Where they get information: [CHANNELS, PUBLICATIONS, COMMUNITIES]
+Current tools they use: [COMPETING OR ADJACENT PRODUCTS]
+
+Create a complete persona document with:
+- Name and title (realistic)
+- Day-in-the-life description (one paragraph)
+- Motivations and frustrations
+- How our product helps them
+- Messaging themes that would resonate
+    </div>
+    <p><em>Use for: Creating or refining buyer personas.</em></p>
+  </div>
+
+  <!-- Prompt Templates: Editing & Polishing -->
+  <div class="lesson">
+    <h3><span class="icon">✏️</span> Prompt Templates: Editing &amp; Polishing</h3>
+
+    <h4>13. Tone Adjuster</h4>
+    <div class="prompt-box">
+Rewrite this text in a [TARGET TONE — e.g., casual, formal, urgent, empathetic, authoritative] tone.
+
+Keep the same core message and structure. Only change how it sounds.
+
+Constraints: [ANY SPECIFIC RULES — e.g., "keep under 100 words," "maintain all data points"]
+
+Text to rewrite:
+[PASTE TEXT]
+    </div>
+    <p><em>Use for: Adapting content for different channels or audiences.</em></p>
+
+    <h4>14. Length Reducer</h4>
+    <div class="prompt-box">
+Cut this text to under [TARGET WORD COUNT] words.
+
+Preserve: [WHAT MUST STAY — key message, CTA, specific data points]
+Remove: anything that doesn't directly support the main point
+
+Text to shorten:
+[PASTE TEXT]
+    </div>
+    <p><em>Use for: Tightening copy that's too long.</em></p>
+
+    <h4>15. Clarity Improver</h4>
+    <div class="prompt-box">
+Edit this text for clarity. Target audience: [WHO — their expertise level].
+
+Specifically:
+- Simplify complex sentences
+- Replace jargon with plain language
+- Make every sentence understandable on first read
+- [ADDITIONAL RULES — e.g., "no acronyms without expansion"]
+
+Text to improve:
+[PASTE TEXT]
+    </div>
+    <p><em>Use for: Making technical or dense copy more accessible.</em></p>
+  </div>
+
+  <!-- Prompt Templates: Strategic -->
+  <div class="lesson">
+    <h3><span class="icon">🎯</span> Prompt Templates: Strategic</h3>
+
+    <h4>16. Campaign Brief Generator</h4>
+    <div class="prompt-box">
+Generate a campaign brief for [CAMPAIGN NAME OR TOPIC].
+
+Goals: [WHAT SUCCESS LOOKS LIKE — metrics and outcomes]
+Target audience: [WHO]
+Channels: [WHERE — email, social, paid, webinar, etc.]
+Timeline: [START AND END DATES]
+Budget: [AMOUNT OR "TBD"]
+Key messages: [2-3 CORE MESSAGES OR "suggest based on the goal"]
+
+Include sections: objective, audience, messaging, channel plan with tactics, timeline with milestones, success metrics, budget allocation
+    </div>
+    <p><em>Use for: Quickly generating campaign brief first drafts.</em></p>
+
+    <h4>17. Positioning Statement</h4>
+    <div class="prompt-box">
+Write a positioning statement using this framework:
+
+For [TARGET CUSTOMER — who they are]
+Who [NEED/PROBLEM — what they struggle with]
+[PRODUCT NAME] is a [CATEGORY — what type of product it is]
+That [KEY BENEFIT — what it does for them]
+Unlike [COMPETITORS OR ALTERNATIVES]
+Our product [KEY DIFFERENTIATOR — what makes us unique]
+
+Then expand this into a 2-3 sentence positioning paragraph suitable for an internal strategy document.
+    </div>
+    <p><em>Use for: Crafting or refining product positioning.</em></p>
+
+    <h4>18. SWOT Analysis</h4>
+    <div class="prompt-box">
+Create a SWOT analysis based on the following:
+
+Company/product: [NAME]
+Context: [PASTE RELEVANT BACKGROUND — market position, recent developments, competitive landscape]
+
+Focus areas: [SPECIFIC ASPECTS TO EVALUATE — e.g., messaging, market position, product capabilities]
+
+Format as a 2x2 table with 3-5 items per quadrant.
+Add a "Key Takeaway" sentence after the table summarizing the most important strategic implication.
+    </div>
+    <p><em>Use for: Structured strategic analysis of your company or competitors.</em></p>
+  </div>
+</div>
+
+  <div class="course-footer">
+    Course created March 2026 for internal use. Claude.ai is a rapidly evolving product — features may change.<br>
+    Check <a href="https://support.claude.com" style="color: #6c5ce7;">support.claude.com</a> for the latest information.
+  </div>
+</div>
+
+<script>
+function showDay(num) {
+  document.querySelectorAll('.day-content').forEach(function(d) { d.classList.remove('active'); });
+  document.querySelectorAll('.day-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.getElementById('day' + num).classList.add('active');
+  document.querySelectorAll('.day-tab')[num - 1].classList.add('active');
+  window.scrollTo({ top: document.querySelector('.day-nav').offsetTop - 10, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
