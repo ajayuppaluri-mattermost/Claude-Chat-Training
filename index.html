@@ -417,48 +417,85 @@
     </ul>
   </div>
 
-  <!-- Section 3: Connecting GSuite -->
+  <!-- Section 3: Connecting Gmail, Google Calendar & Google Drive -->
   <div class="lesson">
-    <h3><span class="icon">🔗</span> Connecting GSuite and Other Integrations</h3>
-    <p>Your Team/Enterprise plan supports connecting external services so Claude can pull in your existing documents and data.</p>
+    <h3><span class="icon">🔗</span> Connecting Gmail, Google Calendar &amp; Google Drive</h3>
+    <p>Your Team/Enterprise plan lets you connect Google services so Claude can read your emails, calendar events, and Drive files directly — no copy-pasting needed. You set these up through <strong>Settings &gt; Connected Apps</strong> (or via the integrations icon in the message box).</p>
 
-    <h4>Google Drive / GSuite</h4>
+    <h4>Google Drive</h4>
+    <p><strong>Setup:</strong></p>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
-        <div class="step-text">Click the attachment button (paperclip) in the message box</div>
+        <div class="step-text">Go to <strong>Settings &gt; Connected Apps</strong></div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <div class="step-text">Select "Google Drive" from the source options</div>
+        <div class="step-text">Click <strong>Connect</strong> next to Google Drive</div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <div class="step-text">Sign in with your work Google account when prompted</div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-text">Browse or search for the file you want to share with Claude</div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div class="step-text">Select the file — Claude will be able to read its contents in your conversation</div>
+        <div class="step-text">Authorize with your work Google account when prompted</div>
       </div>
     </div>
-
-    <p>This means you can pull in Google Docs, Sheets, and Slides directly without downloading and re-uploading them.</p>
-
-    <h4>Other Integrations</h4>
-    <p>Depending on your organization's setup, you may also have access to:</p>
-    <ul>
-      <li><strong>Notion</strong> — Pull in pages and databases</li>
-      <li><strong>Web search</strong> — Claude can search the web for current information (enabled by default on Team/Enterprise)</li>
-      <li><strong>MCP integrations</strong> — Your admin may have connected tools like Asana, Slack, or Google Calendar</li>
-    </ul>
-
+    <p><strong>How to use it:</strong> Click the attachment button (paperclip icon) in the message box, select <strong>Google Drive</strong>, then browse or search for the file you need. Claude reads the contents directly in your conversation.</p>
     <div class="tip">
-      <p>Check with your team admin to see which integrations are available. You can also connect integrations through Settings &gt; Connected Apps.</p>
+      <p>Works with Google Docs, Sheets, and Slides — no need to download and re-upload.</p>
     </div>
+
+    <h4>Gmail</h4>
+    <p><strong>Setup:</strong></p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Go to <strong>Settings &gt; Connected Apps</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Click <strong>Connect</strong> next to Gmail</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Authorize with your work Google account when prompted</div>
+      </div>
+    </div>
+    <p><strong>How to use it:</strong> Once connected, Claude can search and read your emails when you ask. Try this example prompt:</p>
+    <div class="prompt-box">
+      <pre>Find my most recent email from [person] about [topic] and summarize the key points.</pre>
+    </div>
+    <div class="tip">
+      <p>Great for drafting replies, summarizing email threads, and finding information buried in your inbox.</p>
+    </div>
+
+    <h4>Google Calendar</h4>
+    <p><strong>Setup:</strong></p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Go to <strong>Settings &gt; Connected Apps</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Click <strong>Connect</strong> next to Google Calendar</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Authorize with your work Google account when prompted</div>
+      </div>
+    </div>
+    <p><strong>How to use it:</strong> Claude can see your calendar events and help you prepare. Try this example prompt:</p>
+    <div class="prompt-box">
+      <pre>What meetings do I have tomorrow? Help me prepare talking points for the 2pm strategy call.</pre>
+    </div>
+    <div class="tip">
+      <p>Perfect for meeting prep, daily schedule summaries, and finding free time for new meetings.</p>
+    </div>
+
+    <div class="important">
+      <p><strong>Connect all three now</strong> — you'll use them throughout this course. If any connector isn't available, check with your team admin.</p>
+    </div>
+
+    <p>Your organization may also have other integrations available (Notion, web search, Slack, etc.). Check <strong>Settings &gt; Connected Apps</strong> for the full list.</p>
   </div>
 
   <!-- Section 4: Anatomy of a Good First Message -->

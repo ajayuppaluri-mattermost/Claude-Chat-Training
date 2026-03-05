@@ -36,26 +36,54 @@ When you open Claude.ai, here's what you'll see:
 - Display name, team membership, usage information
 - Feature settings including Artifacts (make sure this is turned on)
 
-## Section 3 — Connecting GSuite and Other Integrations
+## Section 3 — Connecting Gmail, Google Calendar & Google Drive
 
-Your Team/Enterprise plan supports connecting external services so Claude can pull in your existing documents and data.
+Your Team/Enterprise plan lets you connect Google services so Claude can read your emails, calendar events, and Drive files directly — no copy-pasting needed. You set these up through **Settings > Connected Apps** (or via the integrations icon in the message box).
 
-**Google Drive / GSuite**
-1. Click the attachment button (paperclip) in the message box
-2. Select "Google Drive" from the source options
-3. Sign in with your work Google account when prompted
-4. Browse or search for the file you want to share with Claude
-5. Select the file — Claude will be able to read its contents in your conversation
+**Google Drive**
 
-This means you can pull in Google Docs, Sheets, and Slides directly without downloading and re-uploading them.
+Setup:
+1. Go to **Settings > Connected Apps**
+2. Click **Connect** next to Google Drive
+3. Authorize with your work Google account when prompted
 
-**Other Integrations**
-Depending on your organization's setup, you may also have access to:
-- **Notion** — Pull in pages and databases
-- **Web search** — Claude can search the web for current information (enabled by default on Team/Enterprise)
-- **MCP integrations** — Your admin may have connected tools like Asana, Slack, or Google Calendar
+How to use it: Click the attachment button (paperclip icon) in the message box, select **Google Drive**, then browse or search for the file you need. Claude reads the contents directly in your conversation.
 
-Check with your team admin to see which integrations are available. You can also connect integrations through Settings > Connected Apps.
+> Works with Google Docs, Sheets, and Slides — no need to download and re-upload.
+
+**Gmail**
+
+Setup:
+1. Go to **Settings > Connected Apps**
+2. Click **Connect** next to Gmail
+3. Authorize with your work Google account when prompted
+
+How to use it: Once connected, Claude can search and read your emails when you ask. Try this example prompt:
+
+```
+Find my most recent email from [person] about [topic] and summarize the key points.
+```
+
+> Great for drafting replies, summarizing email threads, and finding information buried in your inbox.
+
+**Google Calendar**
+
+Setup:
+1. Go to **Settings > Connected Apps**
+2. Click **Connect** next to Google Calendar
+3. Authorize with your work Google account when prompted
+
+How to use it: Claude can see your calendar events and help you prepare. Try this example prompt:
+
+```
+What meetings do I have tomorrow? Help me prepare talking points for the 2pm strategy call.
+```
+
+> Perfect for meeting prep, daily schedule summaries, and finding free time for new meetings.
+
+**Connect all three now** — you'll use them throughout this course. If any connector isn't available, check with your team admin.
+
+Your organization may also have other integrations available (Notion, web search, Slack, etc.). Check **Settings > Connected Apps** for the full list.
 
 ## Section 4 — Anatomy of a Good First Message
 
