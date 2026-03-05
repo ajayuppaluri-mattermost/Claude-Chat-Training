@@ -158,6 +158,14 @@
     position: relative;
     white-space: pre-wrap;
     font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    overflow-x: auto;
+  }
+  .prompt-box pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    font: inherit;
   }
   .prompt-box::before {
     content: "💬 PROMPT";
